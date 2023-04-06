@@ -5,7 +5,15 @@ import Axios from 'axios';
 function App() {
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState("");
+  const [jobList, setJobList] = useState([])
 
+  useEffect(()=> {
+    Axios.get("http://localhost:3001/api/get").then((response)=> {
+      setJobList(response.data);
+    });
+  }, []);
+  
+  
   const postJobPosting = () => {
     Axios.post('http://localhost:3001/api/insert', {
       title: title, 
@@ -28,6 +36,9 @@ function App() {
         <label>Location</label>
         <input type="text" name="Location" onChange={(e)=>{setLocation(e.target.value)}}/>
         <button onClick={postJobPosting}> Post </button>
+        {jobList.map((val)=> {
+          return <h1>Title: {val.title} | Location: {val.location} </h1>
+        })}
       </div>
     </div>
   );
