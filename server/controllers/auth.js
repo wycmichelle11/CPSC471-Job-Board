@@ -5,12 +5,12 @@ export const register = (req, res)=> {
 const q = "SELECT * FROM users WHERE email = ?"
 db.query (q,[req.body.email], (err, data) => {
     if (err) return res.json(err);
-    if(data.length) return res.status(409).json("User already exsists");
+    if(data.length) return res.status(409).json("This email is already registered! Please login or enter a new email!");
     
     //ENCRYPT PASSWORD IF YOU HAVE TIME
 
 
-    const q = "insert into users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
+    const q = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
     const values = [
         req.body.email,
         req.body.password,
@@ -25,7 +25,21 @@ db.query (q,[req.body.email], (err, data) => {
     }); 
 };
 export const login = (req, res)=> {
+//check existing user    
+const q = "SELECT * FROM users WHERE email = ?"
+db.query (q,[req.body.email], (err, data) => {
+    if (err) return res.json(err);
+    if (data.length == 0) return res.status(404).json("User not found!");
     
+    //check password
+    if (data[0].password != req.body.password) return(res.status(400).json("Incorrect username or password"));
+})
+
+
+
+
+
+
 };
 export const logout = (req, res)=> {
     
