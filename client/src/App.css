@@ -1,13 +1,15 @@
 .app {
-  
+
 
 }
+
 .auth-form-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  text-align: center;
+  min-height: 98vh;
   background-color: rgb(154, 235, 255);
 }
 
@@ -38,6 +40,14 @@
   font-size: 20px;
   margin-bottom: 20px;
   color: rgb(4, 82, 134);
+}
+
+.auth-form-container span {
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 12px;
+  padding: 2%;
+
 }
 
 ,navbar {
