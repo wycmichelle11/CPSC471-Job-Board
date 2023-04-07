@@ -1,28 +1,46 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"
 
-const Login = (props) => {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+const Login = () => {
+    const [inputs, setInputs] = useState({
+        email: null,
+        password: null
+    })
 
-    const handleSubmit = (e) => {
+    const [err, setError] = useState(null);
+
+    const navigate = useNavigate();
+
+    //handle multiple inputs in one function
+    const handleChange = (e) => {
+        setInputs(prev => ({...prev, [e.target.name]: e.target.value}));
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email);
+        try {
+            await axios.post("/auth/login", inputs);
+            navigate("/");
+        } catch(err) {
+            setError(err.response.data);
+        }
     }
 
     return (
         <div className="auth-form-container">
             <h1>Login</h1>
-            <form className="login-form" onSubmit={handleSubmit}>
-                <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}type="email" id="email" name="email" />
-                <input placeholder="Password" value={pass} onChange={(e) => setPass(e.target.value)} type="password" id="password" name="password" />
-                <button type="submit">Log In</button>
+            <form className="register-form" onSubmit={handleSubmit}>
+                <input required placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
+                <input required placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
+                <button type="submit" onClick={handleSubmit}>Login</button>
+                <span>
+                {err && <p>{err}</p>}
+                    Don't have an account? 
+                    <Link to="/register"> Register here</Link>
+                </span>
             </form>
-            {/* <button className="link-btn" onClick={() => props.onFormSwitch('register')}>Don't have an account? Click here to Register.</button> */}
-            <span>
-                Don't have an account? 
-                <Link to="/register"> Register here</Link>
-            </span>
+            
         </div>
     )
 }
