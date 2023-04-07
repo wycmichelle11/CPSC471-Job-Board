@@ -1,25 +1,39 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios"
 
-const Register = (props) => {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
-    const [name, setName] = useState('');
+const Register = () => {
+    const [inputs, setInputs] = useState({
+        email: "",
+        password:"",
+        first_name: "",
+        last_name: "",
+    })
 
-    const handleSubmit = (e) => {
+    //handle multiple inputs in one function
+    const handleChange = (e) => {
+        setInputs(prev => ({...prev, [e.target.name]: e.target.value}));
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email);
+        try {
+            const res = await axios.post("/auth/register", inputs);
+            console.log(res);
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     return (
         <div className="auth-form-container">
-            <h1>Register</h1>
+            <h1>Create New Account</h1>
         <form className="register-form" onSubmit={handleSubmit}>
-            <input placeholder="First Name" value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" />
-            <input placeholder="Last Name" value={name} name="name" onChange={(e) => setName(e.target.value)} id="name" />
-            <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}type="email" id="email" name="email" />
-            <input placeholder="Password" value={pass} onChange={(e) => setPass(e.target.value)} type="password" id="password" name="password" />
-            <button type="submit">Log In</button>
+            <input placeholder="First Name" name="first_name" onChange={handleChange} id="name" />
+            <input placeholder="Last Name" name="last_name" onChange={handleChange} id="name" />
+            <input placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
+            <input placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
+            <button type="submit" onClick={handleSubmit}>Register</button>
         </form>
         {/* <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Click here to login</button> */}
         <span>
