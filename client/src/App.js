@@ -1,47 +1,68 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import Axios from 'axios';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Outlet,
+} from "react-router-dom";
+import Register from "./pages/Register"
+import Login from "./pages/Login"
+import WritePost from "./pages/WritePost"
+import Home from "./pages/Home"
+import Footer from "./components/Footer"
+import NavBar from "./components/NavBar"
+
+
+const MainPagesLayout = () => {
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainPagesLayout/>,
+    children: [
+      {
+        path:"/",
+        element: <Home />
+      },
+      {
+        path:"/writepost/:id", //id of post
+        element: <WritePost />
+      },
+    ]
+  },
+  {
+    path: "/register",
+    element: <Register/>
+  },
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/writePost",
+    element: <WritePost/>
+  },
+]);
 
 function App() {
-  const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
-  const [jobList, setJobList] = useState([])
-
-  useEffect(()=> {
-    Axios.get("http://localhost:3001/api/get").then((response)=> {
-      setJobList(response.data);
-    });
-  }, []);
-  
-  
-  const postJobPosting = () => {
-    Axios.post('http://localhost:3001/api/insert', {
-      title: title, 
-      location: location,
-    }).then(() => {
-      alert("successful insert");
-    })
-  };
-
-
-
-
-  return (
-    <div className="App">
-      <h1>Job Board</h1>
-      <h2> Create a Job Posting</h2>
-      <div className="jobPostingForm">
-        <label>Job Title</label>
-        <input type="text" name="JobTitle" onChange={(e)=>{setTitle(e.target.value)}}/>
-        <label>Location</label>
-        <input type="text" name="Location" onChange={(e)=>{setLocation(e.target.value)}}/>
-        <button onClick={postJobPosting}> Post </button>
-        {jobList.map((val)=> {
-          return <h1>Title: {val.title} | Location: {val.location} </h1>
-        })}
-      </div>
+  return(
+    <div className="app">
+      <div className="container">
+        <RouterProvider router={router}/>
+      </div> 
     </div>
   );
 }
+
 
 export default App;
