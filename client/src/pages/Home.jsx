@@ -1,51 +1,33 @@
 import React from 'react'
 
 const Home = () => {
-    // const [title, setTitle] = useState("");
-    // const [location, setLocation] = useState("");
-    // const [jobList, setJobList] = useState([]); //jobList has all the names
-
-    // useEffect(()=> {
-    //     Axios.get("http://localhost:3001/api/get").then((response)=> {
-    //     setJobList(response.data);
-    //     });
-    // }, []);
+  //dymmy data for now
+    const postings = [
+      {
+        id: 1,
+        title: "plumber",
+        location:"calgary"
+      },
+      {
+        id: 2,
+        title: "plumber",
+        location:"calgary2"
+      }
+    ]
+      return (
+        <div className="home">
+            <div className="posts">
+              {postings.map((post) => (
+                <div className="post" key={post.id}>
+                  <div className="content">
+                    <h1>{post.title}</h1>
+                    <p>{post.location}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
     
-    
-    // const postJobPosting = () => {
-    //     Axios.post('http://localhost:3001/api/insert', {
-    //     title: title, 
-    //     location: location,
-    //     });
-        
-    //     setJobList([...jobList, {title: title, location: location}]); //don't need to refresh page to see updates
-    // };
-    return (
-        <div>Home</div>
-    // <div className="App">
-    //   <h1>Job Board</h1>
-    //   <h2> Create a Job Posting</h2>
-    //   <div className="jobPostingForm">
-    //     <label>Job Title</label>
-    //     <input type="text" name="JobTitle" onChange={(e)=>{setTitle(e.target.value)}}/>
-    //     <label>Location</label>
-    //     <input type="text" name="Location" onChange={(e)=>{setLocation(e.target.value)}}/>
-    //     <button onClick={postJobPosting}> Post </button>
-    //     {jobList.map((val)=> {
-    //       return (
-    //         <div className="card">
-    //           <h1>{val.title}</h1>
-    //           <p>
-    //             {val.location}
-    //           </p> 
-    //           <button>Delete Posting</button>
-    //           <input type="text" id="updateInput"></input>
-    //           <button>Update</button>
-    //         </div> 
-    //       );
-    //     })}
-    //   </div>
-    // </div>
   );
 }
 

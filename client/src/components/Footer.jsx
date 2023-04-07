@@ -2,7 +2,11 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <div>Footer</div>
+        <footer>
+            <span>
+                Created by Group 53
+            </span>
+        </footer>
     )
 }
 
