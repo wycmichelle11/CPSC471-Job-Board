@@ -66,6 +66,7 @@
 .navbar-links {
   gap: 30px;
   display: flex;
+  cursor: pointer;
 }
 
 .posts {

@@ -1,32 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 const Home = () => {
-  //dymmy data for now
-    const postings = [
-      {
-        id: 1,
-        title: "plumber",
-        location:"calgary"
-      },
-      {
-        id: 2,
-        title: "plumber",
-        location:"calgary2"
-      }
-    ]
-      return (
-        <div className="home">
-            <div className="posts">
-              {postings.map((post) => (
-                <div className="post" key={post.id}>
-                  <div className="content">
-                    <h1>{post.title}</h1>
-                    <p>{post.location}</p>
-                  </div>
-                </div>
-              ))}
+  const [postings, setPostings] = useState([]);
+  
+  useEffect(()=> {
+    const fetchData = async () => {
+      // try{
+        console.log("up to here");
+        const res = await axios.get("/posts");
+        setPostings(res.data);
+      // }catch (err) {
+      //   console.log(err);
+      // }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div className="home">
+        <div className="postings">
+          {postings.map((post) => (
+            <div className="post" key={post.job_id}>
+              <div className="content">
+                <h1>{post.title}</h1>
+                <p>{post.location}</p>
+                <p>{post.flag}</p>
+                <p>{post.qualification}</p>
+                <p>{post.link}</p>
+                <p>{post.disclaimer}</p>
+                <p>{post.conpensation}</p>
+              </div>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
     
   );
 }

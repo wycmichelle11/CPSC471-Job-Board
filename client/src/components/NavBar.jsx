@@ -11,7 +11,7 @@ const NavBar = () => {
                 <div className="navbar-links">
                     <Link to="/writepost" className="navbar-link">Add New Posting</Link>
                     <span>{currentUser && currentUser.first_name}</span>
-                    {currentUser? <span onClick={logout}>Logout</span> : <Link className="link" to={"/login"}>Login</Link>}
+                    <Link  to="/login" className="navbar-link"  onClick={logout}>Logout</Link>
                 </div>
 
             </div>
