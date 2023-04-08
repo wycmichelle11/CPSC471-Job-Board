@@ -1,4 +1,5 @@
 import { db } from "../db.js"
+import jwt from "jsonwebtoken";
 
 export const register = (req, res)=> {
 //check existing user
@@ -38,6 +39,13 @@ db.query (q,[req.body.email], (err, data) => {
     
     //check password
     if (data[0].password != req.body.password) return(res.status(400).json("Incorrect username or password"));
+
+
+    const token = jwt.sign({account_id:data[0].account_id}, "jwtkey") //check id
+    const {password, ...other} = data[0];
+    res.cookie("access_tocken", token, {
+        httpOnly: true
+    }).status(200).json(other)
 })
 
 
