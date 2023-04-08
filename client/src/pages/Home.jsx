@@ -6,13 +6,13 @@ const Home = () => {
   
   useEffect(()=> {
     const fetchData = async () => {
-      // try{
+      try{
         console.log("up to here");
         const res = await axios.get("/posts");
         setPostings(res.data);
-      // }catch (err) {
-      //   console.log(err);
-      // }
+      }catch (err) {
+        console.log(err);
+      }
     };
     fetchData();
   }, []);
@@ -24,12 +24,12 @@ const Home = () => {
             <div className="post" key={post.job_id}>
               <div className="content">
                 <h1>{post.title}</h1>
-                <p>{post.location}</p>
-                <p>{post.flag}</p>
-                <p>{post.qualification}</p>
-                <p>{post.link}</p>
-                <p>{post.disclaimer}</p>
-                <p>{post.conpensation}</p>
+                <p>Location: {post.location}</p>
+                <p>Flag: {post.flag}</p>
+                <p>Qualifications: {post.qualification}</p>
+                <p>Application Link: {post.link}</p>
+                <p>Disclaimer: {post.disclaimer}</p>
+                <p>Compensation: {post.conpensation}</p>
               </div>
             </div>
           ))}
