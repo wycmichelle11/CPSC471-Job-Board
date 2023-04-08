@@ -32,20 +32,19 @@ const Register = () => {
     return (
         <div className="auth-form-container">
             <h1>Create New Account</h1>
-        <form className="register-form" onSubmit={handleSubmit}>
-            <input required placeholder="First Name" name="first_name" onChange={handleChange} id="name" />
-            <input required placeholder="Last Name" name="last_name" onChange={handleChange} id="name" />
-            <input required placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
-            <input required placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
-            <button type="submit" onClick={handleSubmit}>Register</button>
-            <span>
-             {err && <p>{err}</p>}
-                Already have an account? 
-                <Link to="/login"> Login here</Link>
-            </span>
-        </form>
-        
-    </div>
+            <form className="register-form" onSubmit={handleSubmit}>
+                <input required placeholder="First Name" name="first_name" onChange={handleChange} />
+                <input required placeholder="Last Name" name="last_name" onChange={handleChange} />
+                <input required placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
+                <input required placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
+                <button type="submit" onClick={handleSubmit}>Register</button>
+                <span>
+                {err && <p>{err}</p>}
+                    Already have an account? 
+                    <Link to="/login"> Login here</Link>
+                </span>
+            </form>
+        </div>
     )
 }
 
