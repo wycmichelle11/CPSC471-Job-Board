@@ -9,18 +9,18 @@ db.query (q,[req.body.email], (err, data) => {
     
     //ENCRYPT PASSWORD IF YOU HAVE TIME
 
-
-    const q = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
-    const q1 = "INSERT INTO account(`email`) VALUES (?)"
+    const q = "INSERT INTO account(`email`) VALUES (?)"
+    const q1 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
+    
     const values = [
         req.body.email,
         req.body.password,
         req.body.first_name,
         req.body.last_name,
     ]
-    db.query(q, [values], (err, data) => {
+    db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
-        db.query(q1, [req.body.email], (err, data) => {
+        db.query(q1, [values], (err, data) => {
             if (err) return res.json(err);
         })
         return res.status(200).json("User has been creaded!!!!");
