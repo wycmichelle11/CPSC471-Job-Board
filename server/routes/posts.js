@@ -1,7 +1,12 @@
 import express from "express"
-import { addPost } from "../controllers/posts.js"
+import { addPost, deletePost, getPost, getPosts, updatePost } from "../controllers/posts.js"
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/test", addPost)
-export default router
+router.get("/", getPosts);
+router.get("/:jobid", getPost);
+router.post("/", addPost);
+router.delete("/:jobid", deletePost);
+router.put("/:jobid", updatePost);
+
+export default router;
