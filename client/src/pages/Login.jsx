@@ -40,7 +40,6 @@ const Login = () => {
                     <Link to="/register"> Register here</Link>
                 </span>
             </form>
-            
         </div>
     )
 }

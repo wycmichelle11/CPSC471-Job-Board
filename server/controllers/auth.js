@@ -11,6 +11,7 @@ db.query (q,[req.body.email], (err, data) => {
 
 
     const q = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
+    const q1 = "INSERT INTO account(`email`) VALUES (?)"
     const values = [
         req.body.email,
         req.body.password,
@@ -19,8 +20,12 @@ db.query (q,[req.body.email], (err, data) => {
     ]
     db.query(q, [values], (err, data) => {
         if (err) return res.json(err);
+        db.query(q1, [req.body.email], (err, data) => {
+            if (err) return res.json(err);
+        })
         return res.status(200).json("User has been creaded!!!!");
     })
+    
 
     }); 
 };
