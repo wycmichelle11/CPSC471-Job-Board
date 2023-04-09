@@ -19,14 +19,14 @@ export const getPost = (req, res) => {
 };
 
 export const addPost = (req, res) => {
-    const token = req.cookies.access_token;
-    if(!token) return res.status(401).json("Not authenticated!");
+    //const token = req.cookies.access_token;
+    //if(!token) return res.status(401).json("Not authenticated!");
 
-    jwt.verify(token, "jwtkey", (err, userInfo) => {
-        if (err) return res.status(403).json("Token is not valid");
-    })
+    //jwt.verify(token, "jwtkey", (err, userInfo) => {
+    //    if (err) return res.status(403).json("Token is not valid");
+    //})
 
-    const q = "INSERT INTO job_postings(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";
+    const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `deadline`, `account_id`) VALUES (?)";
 
     const values = [
         req.body.title,
@@ -37,7 +37,8 @@ export const addPost = (req, res) => {
         req.body.disclaimer,
         req.body.compensation,
         req.body.application_deadline,
-        userInfo.account_id
+        //userInfo.account_id
+        req.body.account_id
 
     ];
 

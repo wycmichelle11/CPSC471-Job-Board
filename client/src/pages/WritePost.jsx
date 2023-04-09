@@ -9,9 +9,11 @@ const WritePost = () => {
         location: null,
         flag: null,
         qualification: null,
+        link: null,
         disclaimer: null,
         compensation: null,
         application_deadline: null,
+        account_id: 1,
     })
 
     const [err, setError] = useState(null);
@@ -26,11 +28,11 @@ const WritePost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("/writepost", writeInputs);
-            console.log()
+            await axios.post("/posts/", writeInputs);
             navigate("/");
         } catch(err) {
             setError(err.response.data);
+            console.log(err);
         }
     }
     return (
@@ -39,14 +41,14 @@ const WritePost = () => {
                 <h1>Add New Posting</h1>
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
-                        <input placeholder="Job Title" onChange={handleChange}></input>
-                        <input contenteditable="true" type="text" placeholder="Description"></input>
-                        <input placeholder="Location" onChange={handleChange}></input>
-                        <input placeholder="Qualifications" onChange={handleChange}></input>
-                        <input placeholder="Link to apply" onChange={handleChange}></input>
-                        <input placeholder="Disclaimer" onChange={handleChange}></input>
-                        <input placeholder="Compensation" onChange={handleChange}></input>
-                        <input placeholder="Application Deadline" onChange={handleChange}></input>
+                        <input placeholder="Job Title" name="title" onChange={handleChange}></input>
+                        <input contentEditable="true" type="text" placeholder="Description"></input>
+                        <input placeholder="Location" name="location" onChange={handleChange}></input>
+                        <input placeholder="Qualifications" name="qualification" onChange={handleChange}></input>
+                        <input placeholder="Link to apply" name="link" onChange={handleChange}></input>
+                        <input placeholder="Disclaimer" name="disclaimer" onChange={handleChange}></input>
+                        <input placeholder="Compensation" name="compensation" onChange={handleChange}></input>
+                        <input placeholder="Application Deadline" name="application_deadline" onChange={handleChange}></input>
                     </form>
                     <button type="submit" onClick={handleSubmit}>Post</button>
                 </div>
