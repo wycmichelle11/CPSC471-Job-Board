@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
+import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Home = () => {
   const [postings, setPostings] = useState([]);
   
+  const myPosts = useLocation().search;
   useEffect(()=> {
     const fetchData = async () => {
       try{
         console.log("up to here");
-        const res = await axios.get("/posts");
+        const res = await axios.get(`/posts${myPosts}`);
         setPostings(res.data);
       }catch (err) {
         console.log(err);
       }
     };
     fetchData();
-  }, []);
+  }, [myPosts]);
 
   return (
     <div className="home">
@@ -29,7 +31,7 @@ const Home = () => {
                 <p>Qualifications: {post.qualification}</p>
                 <p>Application Link: {post.link}</p>
                 <p>Disclaimer: {post.disclaimer}</p>
-                <p>Compensation: {post.conpensation}</p>
+                <p>Compensation: {post.compensation}</p>
               </div>
             </div>
           ))}
