@@ -30,7 +30,7 @@ const WritePost = () => {
         e.preventDefault();
         try {
             await axios.post("/posts/", writeInputs);
-            navigate("/");
+            navigate("/home");
         } catch(err) {
             setError(err.response.data);
             console.error(err.response.data);

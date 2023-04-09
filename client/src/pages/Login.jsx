@@ -23,7 +23,7 @@ const Login = () => {
         e.preventDefault();
         try {
             await login(inputs);
-            navigate("/");
+            navigate("/home");
         } catch(err) {
             setError(err.response.data);
         }
@@ -39,7 +39,7 @@ const Login = () => {
                 <span>
                 {err && <p>{err}</p>}
                     Don't have an account? 
-                    <Link to="/register"> Register here</Link>
+                    <Link to="/"> Register here</Link>
                 </span>
             </form>
         </div>

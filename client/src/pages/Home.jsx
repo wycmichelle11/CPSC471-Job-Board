@@ -27,7 +27,7 @@ const Home = () => {
   const handleDelete = async (job_id)=>{
     try {
       await axios.delete(`/posts/${job_id}`);
-      navigate("/")
+      navigate("/home")
     } catch (err) {
       console.log(err);
     }
@@ -37,7 +37,7 @@ const Home = () => {
     <div className="home">
         <div className="postings">
           {postings.map((post) => (
-            <div className="post" key={post.job_id}>
+            <div class="card" className="post" key={post.job_id}>
               <div className="content">
                 <h1>{post.title}</h1>
                 {currentUser.account_id === post.account_id && (
@@ -46,9 +46,6 @@ const Home = () => {
                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                   </div>
                 ) }
-
-
-
                 <p>Location: {post.location}</p>
                 <p>Flag: {post.flag}</p>
                 <p>Qualifications: {post.qualification}</p>

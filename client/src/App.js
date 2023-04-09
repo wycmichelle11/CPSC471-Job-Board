@@ -28,21 +28,21 @@ const MainPagesLayout = () => {
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Register/>
+  },
+  {
+    path: "/home",
     element: <MainPagesLayout/>,
     children: [
       {
-        path:"/",
+        path:"/home",
         element: <Home />
       },
       {
-        path:"/writepost", //id of post
+        path:"/home/writepost", //id of post
         element: <WritePost />
       },
     ]
-  },
-  {
-    path: "/register",
-    element: <Register/>
   },
   {
     path: "/login",
