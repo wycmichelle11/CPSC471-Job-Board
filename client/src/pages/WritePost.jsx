@@ -44,13 +44,13 @@ const WritePost = () => {
                     <form className="new-posting-form" onSubmit={handleSubmit}>
                         <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
-                        <input contentEditable="true" type="text" placeholder="Description"></input>
+                        <textarea contentEditable="true" type="text" placeholder="Description"></textarea>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>
-                        <input placeholder="Qualifications" name="qualification" onChange={handleChange}></input>
+                        <textarea placeholder="Qualifications" name="qualification" onChange={handleChange}></textarea>
                         <input placeholder="Link to apply" name="link" onChange={handleChange}></input>
                         <input placeholder="Disclaimer" name="disclaimer" onChange={handleChange}></input>
-                        <input placeholder="Compensation" name="compensation" onChange={handleChange}></input>
-                        <input placeholder="Application Deadline" name="application_deadline" onChange={handleChange}></input>
+                        <input placeholder="Compensation (e.g. $15/hr)" name="compensation" onChange={handleChange}></input>
+                        <input placeholder="Application Deadline (YYYY-MM-DD)" name="application_deadline" onChange={handleChange}></input>
                         <button type="submit" onClick={handleSubmit}>Post</button>
                     </form>   
                 </div>

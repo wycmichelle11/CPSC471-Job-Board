@@ -26,6 +26,11 @@
     width: 100%;
     padding: 10px;
   }
+  .new-posting-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: sans-serif;
+  }
 
   
   .new-posting-container button {
