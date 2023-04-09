@@ -43,7 +43,7 @@ db.query (q,[req.body.email], (err, data) => {
 
     const token = jwt.sign({account_id:data[0].account_id}, "jwtkey") //check id
     const {password, ...other} = data[0];
-    res.cookie("access_tocken", token, {
+    res.cookie("access_token", token, {
         httpOnly: true
     }).status(200).json(other)
 })

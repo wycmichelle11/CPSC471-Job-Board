@@ -19,33 +19,39 @@ export const getPost = (req, res) => {
 };
 
 export const addPost = (req, res) => {
-    //const token = req.cookies.access_token;
-    //if(!token) return res.status(401).json("Not authenticated!");
+    const token = req.cookies.access_token;
+    if(!token) return res.status(401).json("Not authenticated!");
 
-    //jwt.verify(token, "jwtkey", (err, userInfo) => {
-    //    if (err) return res.status(403).json("Token is not valid");
-    //})
+    jwt.verify(token, "jwtkey", (err, userInfo) => {
+       if (err) return res.status(403).json("Token is not valid");
+       // const q = "INSERT INTO  job(`company`) VALUES ?"
+        const q1 = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";
 
-    const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `deadline`, `account_id`) VALUES (?)";
+        const values = [
+            req.body.title,
+            req.body.location,
+            req.body.flag,
+            req.body.qualification,
+            req.body.link,
+            req.body.disclaimer,
+            req.body.compensation,
+            req.body.application_deadline,
+            userInfo.account_id
 
-    const values = [
-        req.body.title,
-        req.body.location,
-        req.body.flag,
-        req.body.qualification,
-        req.body.link,
-        req.body.disclaimer,
-        req.body.compensation,
-        req.body.application_deadline,
-        //userInfo.account_id
-        req.body.account_id
+        ];
 
-    ];
+        // db.query(q, ["Yoshi Ltd"], (err, data)=> {
+        //     if (err) return res.status(500).json(err);
+        //     return res.json("Post has been created");
+        // })
 
-    db.query(q, [values], (err, data)=> {
-        if (err) return res.status(500).json(err);
-        return res.json("Post has been created");
-    })
+        db.query(q1, [values], (err, data)=> {
+            if (err) return res.status(500).json(err);
+            return res.json("Post has been created");
+        })
+        })
+
+    
 }
 export const deletePost = (req, res) => {
     const token = req.cookies.access_token;

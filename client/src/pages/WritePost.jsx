@@ -32,7 +32,7 @@ const WritePost = () => {
             navigate("/");
         } catch(err) {
             setError(err.response.data);
-            console.log(err);
+            console.error(err.response.data);
         }
     }
     return (
