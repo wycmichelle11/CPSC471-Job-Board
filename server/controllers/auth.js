@@ -12,7 +12,7 @@ db.query (q,[req.body.email], (err, data) => {
 
     const q = "INSERT INTO account(`email`) VALUES (?)"
     const q1 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
-
+    const q2 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
     const values = [
         req.body.email,
         req.body.password,
@@ -25,8 +25,12 @@ db.query (q,[req.body.email], (err, data) => {
         if (err) return res.json(err);
         db.query(q1, [values], (err, data) => {
             if (err) return res.json(err);
+            db.query(q2, (err, data) => {
+                if (err) return res.json(err);
+                return res.status(200).json("User has been creaded!!!!");
+            })
         })
-        return res.status(200).json("User has been creaded!!!!");
+        
     })
     
 

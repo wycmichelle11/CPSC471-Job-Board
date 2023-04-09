@@ -5,6 +5,7 @@ import axios from "axios"
 const WritePost = () => {
 
     const [writeInputs, writeSetInputs] = useState({
+        company_name: null, 
         title: null,
         location: null,
         flag: null,
@@ -13,7 +14,7 @@ const WritePost = () => {
         disclaimer: null,
         compensation: null,
         application_deadline: null,
-        account_id: 1,
+        account_id: null,
     })
 
     const [err, setError] = useState(null);
@@ -41,6 +42,7 @@ const WritePost = () => {
                 <h1>Add New Posting</h1>
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
+                    <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
                         <input contentEditable="true" type="text" placeholder="Description"></input>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>
