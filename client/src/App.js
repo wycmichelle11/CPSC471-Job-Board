@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
+import './css/App.css';
+import './css/Home.css';
+import './css/Login.css';
+import './css/Register.css';
+import './css/WritePost.css';
 import Axios from 'axios';
 import {
   createBrowserRouter,
@@ -49,7 +53,7 @@ const router = createBrowserRouter([
     element: <Login/>
   },
   {
-    path: "/writePost",
+    path: "/home/writePost",
     element: <WritePost/>
   },
 ]);

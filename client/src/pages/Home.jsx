@@ -35,23 +35,29 @@ const Home = () => {
 
   return (
     <div className="home">
-        <div className="postings">
+        <div className="home-postings">
           {postings.map((post) => (
-            <div class="card" className="post" key={post.job_id}>
-              <div className="content">
+            <div className="home-post" key={post.job_id}>
+              <div className="home-content">
                 <h1>{post.title}</h1>
                 {currentUser.account_id === post.account_id && (
-                  <div className="edit">
+                  <div className="home-edit">
                     <button>Edit</button>
                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                   </div>
                 ) }
+                
                 <p>Location: {post.location}</p>
                 <p>Flag: {post.flag}</p>
                 <p>Qualifications: {post.qualification}</p>
                 <p>Application Link: {post.link}</p>
                 <p>Disclaimer: {post.disclaimer}</p>
                 <p>Compensation: {post.compensation}</p>
+                {currentUser.account_id !== post.account_id && (
+                  <div className="home-apply">
+                    <button>Apply</button>
+                  </div>
+                ) }
               </div>
             </div>
           ))}
