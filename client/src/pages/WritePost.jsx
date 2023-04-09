@@ -5,6 +5,7 @@ import axios from "axios"
 const WritePost = () => {
 
     const [writeInputs, writeSetInputs] = useState({
+        company_name: null, 
         title: null,
         location: null,
         flag: null,
@@ -13,7 +14,7 @@ const WritePost = () => {
         disclaimer: null,
         compensation: null,
         application_deadline: null,
-        account_id: 1,
+        account_id: null,
     })
 
     const [err, setError] = useState(null);
@@ -29,18 +30,19 @@ const WritePost = () => {
         e.preventDefault();
         try {
             await axios.post("/posts/", writeInputs);
-            navigate("/");
+            navigate("/home");
         } catch(err) {
             setError(err.response.data);
-            console.log(err);
+            console.error(err.response.data);
         }
     }
     return (
         <div className="write">
-            <div className="content">
+            <div className="write-content">
                 <h1>Add New Posting</h1>
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
+                        <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
                         <input contentEditable="true" type="text" placeholder="Description"></input>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>
@@ -49,8 +51,8 @@ const WritePost = () => {
                         <input placeholder="Disclaimer" name="disclaimer" onChange={handleChange}></input>
                         <input placeholder="Compensation" name="compensation" onChange={handleChange}></input>
                         <input placeholder="Application Deadline" name="application_deadline" onChange={handleChange}></input>
-                    </form>
-                    <button type="submit" onClick={handleSubmit}>Post</button>
+                        <button type="submit" onClick={handleSubmit}>Post</button>
+                    </form>   
                 </div>
                 
             </div>

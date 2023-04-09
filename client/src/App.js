@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
+import './css/App.css';
+import './css/Home.css';
+import './css/Login.css';
+import './css/Register.css';
+import './css/WritePost.css';
 import Axios from 'axios';
 import {
   createBrowserRouter,
@@ -28,28 +32,28 @@ const MainPagesLayout = () => {
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Register/>
+  },
+  {
+    path: "/home",
     element: <MainPagesLayout/>,
     children: [
       {
-        path:"/",
+        path:"/home",
         element: <Home />
       },
       {
-        path:"/writepost", //id of post
+        path:"/home/writepost", //id of post
         element: <WritePost />
       },
     ]
-  },
-  {
-    path: "/register",
-    element: <Register/>
   },
   {
     path: "/login",
     element: <Login/>
   },
   {
-    path: "/writePost",
+    path: "/home/writePost",
     element: <WritePost/>
   },
 ]);

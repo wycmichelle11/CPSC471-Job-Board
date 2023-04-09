@@ -9,7 +9,7 @@ const NavBar = () => {
         <div className="navbar">
             <div className="nav-container">
                 <div className="navbar-links">
-                    <Link to="/writepost" className="navbar-link">Add New Posting</Link>
+                    <Link to="/home/writepost" className="navbar-link">Add New Posting</Link>
                     <span>{currentUser && currentUser.first_name}</span>
                     <Link  to="/login" className="navbar-link"  onClick={logout}>Logout</Link>
                 </div>
