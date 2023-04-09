@@ -11,13 +11,15 @@ db.query (q,[req.body.email], (err, data) => {
     //ENCRYPT PASSWORD IF YOU HAVE TIME
 
     const q = "INSERT INTO account(`email`) VALUES (?)"
-    const q1 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`) VALUES (?)"
-    
+    const q1 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
+
     const values = [
         req.body.email,
         req.body.password,
         req.body.first_name,
         req.body.last_name,
+        req.body.affiliated_company
+
     ]
     db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
@@ -47,10 +49,6 @@ db.query (q,[req.body.email], (err, data) => {
         httpOnly: true
     }).status(200).json(other)
 })
-
-
-
-
 
 
 };

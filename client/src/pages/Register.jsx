@@ -8,6 +8,7 @@ const Register = () => {
         password: null,
         first_name: null,
         last_name: null,
+        affiliated_company: null
     })
 
     const [err, setError] = useState(null);
@@ -23,7 +24,7 @@ const Register = () => {
         e.preventDefault();
         try {
             await axios.post("/auth/register", inputs);
-            navigate("/");
+            navigate("/login");
         } catch(err) {
             setError(err.response.data);
         }
@@ -37,6 +38,7 @@ const Register = () => {
                 <input required placeholder="Last Name" name="last_name" onChange={handleChange} />
                 <input required placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
                 <input required placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
+                <input required placeholder="Company Name" name="affiliated_company" onChange={handleChange} />
                 <button type="submit" onClick={handleSubmit}>Register</button>
                 <span>
                 {err && <p>{err}</p>}
