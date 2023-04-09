@@ -24,9 +24,9 @@ export const addPost = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
        if (err) return res.status(403).json("Token is not valid");
-        const q = "INSERT INTO job(`company_name`) VALUES (?)"
-         const q1 = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";
-        // const q2 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
+       const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+       const q1 = "INSERT INTO job VALUES ((SELECT `job_id` FROM job_posting WHERE `title`= ?), ?)"
+       
 
 
         const values = [
@@ -42,15 +42,15 @@ export const addPost = (req, res) => {
 
         ];
 
-        db.query(q, [req.body.company_name], (err, data)=> {
+        db.query(q, [values], (err, data)=> {
             if (err) return res.status(500).json(err);
-            return res.json("Post has been created");
+            db.query(q1, [req.body.title, req.body.company_name], (err, data)=> {
+                if (err) return res.status(500).json(err);
+                return res.json("Post has been created");
+            })
         })
 
-        db.query(q1, [values], (err, data)=> {
-            if (err) return res.status(500).json(err);
-            return res.json("Post has been created");
-        })
+        
      })
 
     
