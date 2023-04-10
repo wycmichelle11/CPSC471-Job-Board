@@ -7,3 +7,5 @@ client/package.json
 .idea/modules.xml
 .idea/vcs.xml
 .idea/CPSC471-Job-Board.iml
+client/package-lock.json
+client/package.json

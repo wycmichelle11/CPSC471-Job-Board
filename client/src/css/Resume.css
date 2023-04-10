@@ -1,0 +1,56 @@
+.addresume{
+    width: max-content;
+    padding: 5px 10px;
+    margin-left: 10px;
+    margin-top: 40px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid teal;
+    color: teal;
+}
+.new-resume-container form {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    gap: 10px;
+    align-items: center;
+    min-width: 100vh;
+    
+  }
+  .new-resume-container input {
+    width: 100%;
+    padding: 10px;
+  }
+  .new-resume-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: sans-serif;
+  }
+  .new-resume-container button {
+    width: max-content;
+    padding: 5px 10px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid teal;
+    color: teal;
+  } 
+  .resume-content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid teal;
+    padding-left: 20vh;
+    padding-right: 20vh;
+    background-color: white;
+    align-items: center;
+}
+.display-resume {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}

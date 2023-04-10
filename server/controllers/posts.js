@@ -23,12 +23,10 @@ export const addPost = (req, res) => {
     if(!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
-       if (err) return res.status(403).json("Token is not valid");
-       const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
-       const q1 = "INSERT INTO job VALUES ((SELECT `job_id` FROM job_posting WHERE `title`= ?), ?)"
-       
-
-
+        if (err) return res.status(403).json("Token is not valid");
+        const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+        const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
+        
         const values = [
             req.body.title,
             req.body.location,
@@ -44,7 +42,7 @@ export const addPost = (req, res) => {
 
         db.query(q, [values], (err, data)=> {
             if (err) return res.status(500).json(err);
-            db.query(q1, [req.body.title, req.body.company_name], (err, data)=> {
+            db.query(q1, [req.body.company_name], (err, data)=> {
                 if (err) return res.status(500).json(err);
                 return res.json("Post has been created");
             })
@@ -56,6 +54,7 @@ export const addPost = (req, res) => {
     
 }
 export const deletePost = (req, res) => {
+
     const token = req.cookies.access_token;
     if(!token) return res.status(401).json("Not authenticated!");
 
@@ -63,12 +62,10 @@ export const deletePost = (req, res) => {
         if (err) return res.status(403).json("Token is not valid!");
 
         const jobId = req.params.jobid;
-
         const q = "DELETE FROM job_posting WHERE `job_id` = ? AND `account_id` = ?";
-
+        console.log(userInfo.account_id);
         db.query(q, [jobId,userInfo.account_id], (err,data)=>{
             if(err) return res.status(403).json("You can delete only your post!")
-
             return res.json("Post has been deleted!")
         })
         
@@ -100,4 +97,5 @@ export const updatePost = (req, res) => {
         if (err) return res.status(500).json(err);
         return res.json("Post has been updated");
     })
-}
+};
+

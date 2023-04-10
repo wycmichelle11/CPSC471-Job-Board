@@ -4,6 +4,7 @@ import './css/Home.css';
 import './css/Login.css';
 import './css/Register.css';
 import './css/WritePost.css';
+import './css/Resume.css'
 import Axios from 'axios';
 import {
   createBrowserRouter,
@@ -14,9 +15,11 @@ import {
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import WritePost from "./pages/WritePost"
+import AddResume from "./pages/AddResume"
 import Home from "./pages/Home"
 import Footer from "./components/Footer"
 import NavBar from "./components/NavBar"
+import MyAccount from "./pages/MyAccount"
 
 
 const MainPagesLayout = () => {
@@ -45,6 +48,14 @@ const router = createBrowserRouter([
       {
         path:"/home/writepost", //id of post
         element: <WritePost />
+      },
+      {
+        path:"/home/myaccount", //id of post
+        element: <MyAccount />
+      },
+      {
+        path:"/home/resume", //id of post
+        element: <AddResume />
       },
     ]
   },
