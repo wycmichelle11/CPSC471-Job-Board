@@ -10,7 +10,7 @@ const NavBar = () => {
             <div className="nav-container">
                 <div className="navbar-links">
                     <Link to="/home/writepost" className="navbar-link">Add New Posting</Link>
-                    <span>{currentUser && currentUser.first_name}</span>
+                    <Link to="/home/myaccount" className="navbar-link">{currentUser && currentUser.first_name}</Link>
                     <Link  to="/login" className="navbar-link"  onClick={logout}>Logout</Link>
                 </div>
 

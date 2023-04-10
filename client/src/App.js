@@ -17,6 +17,7 @@ import WritePost from "./pages/WritePost"
 import Home from "./pages/Home"
 import Footer from "./components/Footer"
 import NavBar from "./components/NavBar"
+import MyAccount from "./pages/MyAccount"
 
 
 const MainPagesLayout = () => {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path:"/home/writepost", //id of post
         element: <WritePost />
+      },
+      {
+        path:"/home/myaccount", //id of post
+        element: <MyAccount />
       },
     ]
   },
