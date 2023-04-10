@@ -23,12 +23,10 @@ export const addPost = (req, res) => {
     if(!token) return res.status(401).json("Not authenticated!");
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
-       if (err) return res.status(403).json("Token is not valid");
-       const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
-       const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
-       
-
-
+        if (err) return res.status(403).json("Token is not valid");
+        const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+        const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
+        
         const values = [
             req.body.title,
             req.body.location,
@@ -99,4 +97,5 @@ export const updatePost = (req, res) => {
         if (err) return res.status(500).json(err);
         return res.json("Post has been updated");
     })
-}
+};
+

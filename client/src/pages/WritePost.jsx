@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios"
 
 const WritePost = () => {
@@ -49,7 +49,7 @@ const WritePost = () => {
                         <textarea placeholder="Qualifications" name="qualification" onChange={handleChange}></textarea>
                         <input placeholder="Link to apply" name="link" onChange={handleChange}></input>
                         <input placeholder="Disclaimer" name="disclaimer" onChange={handleChange}></input>
-                        <input placeholder="Compensation (e.g. $15/hr)" name="compensation" onChange={handleChange}></input>
+                        <input placeholder="Compensation (e.g. 15)" name="compensation" onChange={handleChange}></input>
                         <input placeholder="Application Deadline (YYYY-MM-DD)" name="application_deadline" onChange={handleChange}></input>
                         <button type="submit" onClick={handleSubmit}>Post</button>
                     </form>   

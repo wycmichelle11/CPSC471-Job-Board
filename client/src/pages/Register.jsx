@@ -39,6 +39,7 @@ const Register = () => {
                 <input required placeholder="Email" name="email" onChange={handleChange} type="email" id="email" />
                 <input required placeholder="Password" name="password" onChange={handleChange} type="password" id="password" />
                 <input required placeholder="Company Name" name="affiliated_company" onChange={handleChange} />
+                <span>Only enter Company name if you are a job poster</span>
                 <button type="submit" onClick={handleSubmit}>Register</button>
                 <span>
                 {err && <p>{err}</p>}
