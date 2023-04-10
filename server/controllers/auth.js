@@ -27,7 +27,7 @@ db.query (q,[req.body.email], (err, data) => {
             if (err) return res.json(err);
             db.query(q2, (err, data) => {
                 if (err) return res.json(err);
-                return res.status(200).json("User has been creaded!!!!");
+                return res.status(200).json("User has been created!!!!");
             })
         })
         
