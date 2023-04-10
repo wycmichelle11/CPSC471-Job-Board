@@ -20,6 +20,7 @@ import Home from "./pages/Home"
 import Footer from "./components/Footer"
 import NavBar from "./components/NavBar"
 import MyAccount from "./pages/MyAccount"
+import AppliedTo from "./pages/AppliedTo"
 
 
 const MainPagesLayout = () => {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path:"/home/resume", //id of post
         element: <AddResume />
+      },
+      {
+        path:"/home/appliedto", //id of post
+        element: <AppliedTo />
       },
     ]
   },
