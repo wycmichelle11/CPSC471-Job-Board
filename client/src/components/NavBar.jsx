@@ -14,7 +14,7 @@ const NavBar = () => {
                         <Link to="/home/writepost" className="navbar-link">Add New Posting</Link>
                     </div>}
                     {(currentUser && !currentUser.affiliated_company)  && <div className="navbar-addpost">
-                        <Link to="/home/writepost" className="navbar-link">My Applications</Link>
+                        <Link to="/home/appliedto" className="navbar-link">My Applications</Link>
                     </div>}
                     <Link to="/home/myaccount" className="navbar-link">{currentUser && currentUser.first_name}</Link>
                     <Link  to="/login" className="navbar-link"  onClick={logout}>Logout</Link>

@@ -12,7 +12,6 @@ const Home = () => {
   useEffect(()=> {
     const fetchData = async () => {
       try{
-        console.log("up to here");
         const res = await axios.get(`/posts`);
         setPostings(res.data);
       }catch (err) {
@@ -31,6 +30,7 @@ const Home = () => {
       console.log(err);
     }
   }
+
 
 
   return (
