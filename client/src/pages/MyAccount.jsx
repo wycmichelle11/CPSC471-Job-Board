@@ -7,25 +7,48 @@ const MyAccount = () => {
     const {currentUser,logout} = useContext(AuthContext);
 
     const [resumes, setResumes] = useState([]);
+    const [postings, setPostings] = useState([]);
     const myResumes = useLocation().search;
+    const myPosts = useLocation().search;
     useEffect(()=> {
-        const fetchData = async () => {
+        const fetchDataResume = async () => {
         try{
-            console.log("up to here");
             const res = await axios.get(`/resumes`);
             setResumes(res.data);
         }catch (err) {
             console.log(err);
         }
         };
-        fetchData();
+        fetchDataResume();
     }, [myResumes]);
+
+    useEffect(()=> {
+        const fetchData = async () => {
+          try{
+            const res = await axios.get(`/posts`);
+            setPostings(res.data);
+          }catch (err) {
+            console.log(err);
+          }
+        };
+        fetchData();
+      }, [myPosts]);
+    
+
+    const handleDelete = (jobid) => async () => {
+        try {
+          await axios.delete(`/posts/${jobid}`);
+          setPostings(postings.filter((post) => post.job_id !== jobid));
+        } catch (err) {
+          console.log(err);
+        }
+      }
 
 
 
     return(
         <div className="myaccount-container">
-            {(currentUser && !currentUser.affiliated_company) &&<div className="addresume">
+            {(currentUser && !currentUser.affiliated_company) && <div className="addresume">
                 <Link to="/home/resume">Add/Update Resume</Link>
             </div>}
             {(currentUser && !currentUser.affiliated_company) && <div className="display-resume">
@@ -45,10 +68,29 @@ const MyAccount = () => {
                 ))}
             </div>}
 
-            <h1>Posted Jobs</h1>
-
-
-
+            <div className="home-postings">
+                {postings.map((post) => (
+                    <div className="home-post" key={post.job_id}>
+                        {currentUser.account_id === post.account_id && (<div className="home-content">
+                            <h1>{post.title}</h1>
+                                <div className="home-edit">
+                                    <button>Edit</button>
+                                    <button onClick={handleDelete(post.job_id)}>Delete</button>
+                                </div>
+                                
+                                <p>Posting#: {post.job_id}</p>
+                                <p>Poster: {post.account_id}</p>
+                                <p>Location: {post.location}</p>
+                                <p>Flag: {post.flag}</p>
+                                <p>Qualifications: {post.qualification}</p>
+                                <p>Application Link: {post.link}</p>
+                                <p>Disclaimer: {post.disclaimer}</p>
+                                <p>Compensation: {post.compensation}</p>
+                                
+                        </div>)}
+                    </div>
+                ))}
+            </div>
 
         </div>
 

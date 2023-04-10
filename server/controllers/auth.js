@@ -20,7 +20,6 @@ db.query (q,[req.body.email], (err, data) => {
         req.body.first_name,
         req.body.last_name,
         req.body.affiliated_company
-
     ]
     db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
