@@ -8,9 +8,7 @@ const Home = () => {
   
   const {currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
-
   const myPosts = useLocation().search;
-  console.log(myPosts);
   useEffect(()=> {
     const fetchData = async () => {
       try{
@@ -24,14 +22,16 @@ const Home = () => {
     fetchData();
   }, [myPosts]);
 
-  const handleDelete = async (job_id)=>{
+
+  const handleDelete = (jobid) => async () => {
     try {
-      await axios.delete(`/posts/${job_id}`);
-      navigate("/home")
+      await axios.delete(`/posts/${jobid}`);
+      setPostings(postings.filter((post) => post.job_id !== jobid));
     } catch (err) {
       console.log(err);
     }
   }
+
 
   return (
     <div className="home">
@@ -46,7 +46,8 @@ const Home = () => {
                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                   </div>
                 ) }
-                
+                <p>Posting#: {post.job_id}</p>
+                <p>Poster: {post.account_id}</p>
                 <p>Location: {post.location}</p>
                 <p>Flag: {post.flag}</p>
                 <p>Qualifications: {post.qualification}</p>
