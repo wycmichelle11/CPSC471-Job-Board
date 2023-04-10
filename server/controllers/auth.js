@@ -11,8 +11,9 @@ db.query (q,[req.body.email], (err, data) => {
     //ENCRYPT PASSWORD IF YOU HAVE TIME
 
     const q = "INSERT INTO account(`email`) VALUES (?)"
-    const q1 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
-    const q2 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
+    const q1 = "INSERT INTO company(`name`) VALUES (?)"
+    const q2 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
+    const q3 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
     const values = [
         req.body.email,
         req.body.password,
@@ -23,13 +24,17 @@ db.query (q,[req.body.email], (err, data) => {
     ]
     db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
-        db.query(q1, [values], (err, data) => {
+        db.query(q1, [req.body.affiliated_company], (err,data) => {
             if (err) return res.json(err);
-            db.query(q2, (err, data) => {
+            db.query(q2, [values], (err, data) => {
                 if (err) return res.json(err);
-                return res.status(200).json("User has been created!!!!");
+                db.query(q3, (err, data) => {
+                    if (err) return res.json(err);
+                    return res.status(200).json("User has been created!!!!");
+                })
             })
         })
+        
         
     })
     

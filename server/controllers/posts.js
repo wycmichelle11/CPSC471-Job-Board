@@ -26,7 +26,8 @@ export const addPost = (req, res) => {
         if (err) return res.status(403).json("Token is not valid");
         const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
-        
+        const q2 = "INSERT INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))" 
+
         const values = [
             req.body.title,
             req.body.location,
@@ -44,7 +45,11 @@ export const addPost = (req, res) => {
             if (err) return res.status(500).json(err);
             db.query(q1, [req.body.company_name], (err, data)=> {
                 if (err) return res.status(500).json(err);
-                return res.json("Post has been created");
+                db.query(q2, [userInfo.account_id], (err, data) => {
+                    if (err) return res.status(500).json(err);
+                    return res.json("Post has been created");
+                })
+                
             })
         })
 
@@ -63,10 +68,19 @@ export const deletePost = (req, res) => {
 
         const jobId = req.params.jobid;
         const q = "DELETE FROM job_posting WHERE `job_id` = ? AND `account_id` = ?";
+        const q1 = "DELETE FROM job WHERE `job_id` = ?"
+        const q2 = "DELETE FROM available_jobs WHERE `available_job` = ?"
         console.log(userInfo.account_id);
-        db.query(q, [jobId,userInfo.account_id], (err,data)=>{
-            if(err) return res.status(403).json("You can delete only your post!")
-            return res.json("Post has been deleted!")
+        db.query(q2, [jobId], (err,data)=>{
+            if(err) return res.status(403).json("You can delete only your post!");
+            db.query(q1, [jobId], (err, data) => {
+                if(err) return res.status(403).json("You can delete only your post!");
+                db.query(q, [jobId,userInfo.account_id], (err,data)=>{
+                    if(err) return res.status(403).json("You can delete only your post!");
+                    return res.json("Post has been deleted!");
+                })
+            })
+            
         })
         
     });

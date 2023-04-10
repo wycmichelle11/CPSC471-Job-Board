@@ -44,7 +44,7 @@ const WritePost = () => {
                     <form className="new-posting-form" onSubmit={handleSubmit}>
                         <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
-                        <textarea contentEditable="true" type="text" placeholder="Description"></textarea>
+                        <textarea type="text" placeholder="Description"></textarea>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>
                         <textarea placeholder="Qualifications" name="qualification" onChange={handleChange}></textarea>
                         <input placeholder="Link to apply" name="link" onChange={handleChange}></input>
