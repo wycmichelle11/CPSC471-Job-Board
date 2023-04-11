@@ -52,7 +52,7 @@ const router = createBrowserRouter([
         element: <WritePost />
       },
       {
-        path:"/home/editpost/:jobid" , //id of post
+        path:"/home/editpost/" , //id of post
         element: <EditPost />
       },
       {

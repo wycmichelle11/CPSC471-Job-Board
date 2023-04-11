@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {AuthContext} from "../context/authContext.js";
 
@@ -8,6 +8,7 @@ const Home = () => {
   
   const {currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
+  //const history = useHistory();
   const myPosts = useLocation().search;
   useEffect(()=> {
     const fetchData = async () => {
@@ -42,6 +43,10 @@ const Home = () => {
     }
   }
 
+  const handleEdit = (jobid) => async () => {
+    navigate('/home/editpost', {state:{ jobid: jobid }});
+  }
+
   return (
     <div className="home">
         <div className="home-postings">
@@ -52,7 +57,7 @@ const Home = () => {
                 <h2>{post.title}</h2>
                 {currentUser.account_id === post.account_id && (
                   <div className="resume-edit">
-                    <Link to={`/home/editpost/${post.job_id}`} className="button-link">Edit</Link>
+                    <button onClick={handleEdit(post.job_id)} >Edit</button>
                     <button onClick={handleDelete(post.job_id)} >Delete</button>
                   </div>
                 ) }

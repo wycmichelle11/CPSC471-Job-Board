@@ -78,11 +78,11 @@ export const deletePost = (req, res) => {
         const q2 = "DELETE FROM available_jobs WHERE `available_job` = ?"
         console.log(userInfo.account_id);
         db.query(q2, [jobId], (err,data)=>{
-            if(err) return res.status(403).json("You can delete only your post!");
+            if(err) return res.status(403).json("You can delete only your post!1");
             db.query(q1, [jobId], (err, data) => {
-                if(err) return res.status(403).json("You can delete only your post!");
+                if(err) return res.status(403).json("You can delete only your post!2");
                 db.query(q, [jobId,userInfo.account_id], (err,data)=>{
-                    if(err) return res.status(403).json("You can delete only your post!");
+                    if(err) return res.status(403).json("You can delete only your post!3");
                     return res.json("Post has been deleted!");
                 })
             })
@@ -99,8 +99,8 @@ export const updatePost = (req, res) => {
         if (err) return res.status(403).json("Token is not valid");
     })
 
-    const jobId = req.params.job_id;
-    const q = "UPDATE job_postings SET `title`=?, `location`=?, `flag`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ? AND account_id = ?";
+    const jobId = req.params.jobid;
+    const q = "UPDATE job_posting SET `title`=?, `location`=?, `flag`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ?";
 
     const values = [
         req.body.title,
@@ -110,10 +110,10 @@ export const updatePost = (req, res) => {
         req.body.link,
         req.body.disclaimer,
         req.body.compensation,
-
+        req.body.application_deadline
     ];
 
-    db.query(q, [values,jobId, userInfo.account_id], (err, data)=> {
+    db.query(q, [...values,jobId], (err, data)=> {
         if (err) return res.status(500).json(err);
         return res.json("Post has been updated");
     })
