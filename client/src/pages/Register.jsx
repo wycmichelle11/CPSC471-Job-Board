@@ -8,7 +8,7 @@ const Register = () => {
         password: null,
         first_name: null,
         last_name: null,
-        affiliated_company: null,
+        affiliated_company: null
     })
 
     const [err, setError] = useState(null);

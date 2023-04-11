@@ -15,7 +15,6 @@ const WritePost = () => {
         compensation: null,
         application_deadline: null,
         account_id: null,
-        verification: "verified"
     })
 
     const [err, setError] = useState(null);
