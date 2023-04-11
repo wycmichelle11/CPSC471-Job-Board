@@ -28,6 +28,7 @@ const AppliedTo = () => {
                 {applied.map((job) => (
                     <div className="applied-post" key={job.job_id}>
                         <div className="applied-content">
+                            <h2>{job.title}</h2>
                             <p>Posting#: {job.job_id}</p>
                             <p>Poster: {job.account_id}</p>
                             <p>Location: {job.location}</p>

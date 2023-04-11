@@ -45,10 +45,11 @@ const Home = () => {
   return (
     <div className="home">
         <div className="home-postings">
+        <h1>Job Postings</h1>
           {postings.map((post) => (
             <div className="home-post" key={post.job_id}>
               <div className="home-content">
-                <h1>{post.title}</h1>
+                <h2>{post.title}</h2>
                 {currentUser.account_id === post.account_id && (
                   <div className="home-edit">
                     <button>Edit</button>
