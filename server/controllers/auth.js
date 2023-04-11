@@ -11,7 +11,7 @@ db.query (q,[req.body.email], (err, data) => {
     //ENCRYPT PASSWORD IF YOU HAVE TIME
 
     const q = "INSERT INTO account(`email`) VALUES (?)"
-    const q1 = "INSERT INTO company(`name`) VALUES (?)"
+    const q1 = "INSERT IGNORE INTO company(`name`) VALUES (?)"
     const q2 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
     const q3 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
     const values = [
