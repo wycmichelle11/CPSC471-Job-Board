@@ -1,13 +1,25 @@
-.addresume{
-    width: max-content;
+.resume-edit button{
+  width: max-content;
     padding: 5px 10px;
-    margin-left: 10px;
-    margin-top: 40px;
+    margin: 10px;
+    border: none;
     cursor: pointer;
     background-color: white;
     border: 1px solid teal;
     color: teal;
 }
+
+.resume-edit Link {
+  width: max-content;
+  padding: 5px 10px;
+  margin-left: 10px;
+  margin-top: 40px;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid teal;
+  color: teal;
+}
+
 .new-resume-container form {
     display: flex;
     flex-direction: column;

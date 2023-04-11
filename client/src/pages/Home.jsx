@@ -51,7 +51,7 @@ const Home = () => {
               <div className="home-content">
                 <h2>{post.title}</h2>
                 {currentUser.account_id === post.account_id && (
-                  <div className="home-edit">
+                  <div className="resume-edit">
                     <button>Edit</button>
                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                   </div>
@@ -64,7 +64,7 @@ const Home = () => {
                 <p>Application Link: {post.link}</p>
                 <p>Disclaimer: {post.disclaimer}</p>
                 <p>Compensation: {post.compensation}</p>
-                {currentUser.account_id !== post.account_id && (
+                {currentUser && !currentUser.affiliated_company && (
                   <div onClick={handleApply(post.job_id)} className="home-apply">
                     <button>Apply</button>
                   </div>
