@@ -4,8 +4,9 @@ import axios from "axios";
 import {AuthContext} from "../context/authContext.js"
 
 const MyAccount = () => {
-    const {currentUser,logout} = useContext(AuthContext);
-
+    const {currentUser} = useContext(AuthContext);
+    const [err, setError] = useState(null);
+    const navigate = useNavigate();
     const [resumes, setResumes] = useState([]);
     const [postings, setPostings] = useState([]);
     const myResumes = useLocation().search;
@@ -42,14 +43,28 @@ const MyAccount = () => {
         } catch (err) {
           console.log(err);
         }
-      }
+    }
+
+    const addResume = async (e) => {
+        e.preventDefault();
+        try {
+            navigate("/home/resume");
+        } catch(err) {
+            setError(err.response.data);
+        }
+    }
 
 
 
     return(
         <div className="myaccount-container">
-            {(currentUser && !currentUser.affiliated_company) && <div className="addresume">
-                <Link to="/home/resume">Add/Update Resume</Link>
+            {(currentUser && !currentUser.affiliated_company) && <div className="addResume">
+                <div className="resume-edit">
+                    {/* <Link to="/home/resume">Add/Update Resume</Link> */}
+                    <button onClick={addResume}>Add Resume</button>
+                    <button>Update Resume</button>
+                    <button>Delete Resume</button>
+                </div>
             </div>}
             {(currentUser && !currentUser.affiliated_company) && <div className="display-resume">
                 {resumes.map((post) => (
@@ -71,6 +86,9 @@ const MyAccount = () => {
             <div className="home-postings">
                 {postings.map((post) => (
                     <div className="home-post" key={post.job_id}>
+                        {currentUser.account_id === post.account_id && (<div className="title">
+                            <h1>My Postings</h1>
+                        </div>)}
                         {currentUser.account_id === post.account_id && (<div className="home-content">
                             <h1>{post.title}</h1>
                                 <div className="home-edit">
