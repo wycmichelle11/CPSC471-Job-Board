@@ -63,8 +63,8 @@ const Home = () => {
                 ) }
                 <p>Posting#: {post.job_id}</p>
                 <p>Poster: {post.account_id}</p>
+                <p>Verification: {post.verification}</p>
                 <p>Location: {post.location}</p>
-                <p>Flag: {post.flag}</p>
                 <p>Qualifications: {post.qualification}</p>
                 <p>Application Link: {post.link}</p>
                 <p>Disclaimer: {post.disclaimer}</p>
