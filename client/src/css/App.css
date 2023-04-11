@@ -52,6 +52,9 @@
   align-items: center;
 }
 
+.title {
+  text-align: center;
+}
 footer{
   display: flex;
   align-items: center;

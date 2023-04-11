@@ -23,8 +23,10 @@ const AppliedTo = () => {
 
     return(
         <div className="appliedto-container">
-             <div className="display-application">
+            <div className="title">
                 <h1>Applied Jobs</h1>
+            </div>
+            <div className="display-application">
                 {applied.map((job) => (
                     <div className="applied-post" key={job.job_id}>
                         <div className="applied-content">
