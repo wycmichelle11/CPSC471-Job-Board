@@ -8,8 +8,6 @@ const q = "SELECT * FROM users WHERE email = ?"
 db.query (q,[req.body.email], (err, data) => {
     if (err) return res.json(err);
     if(data.length) return res.status(409).json("This email is already registered! Please login or enter a new email!");
-    
-    //ENCRYPT PASSWORD IF YOU HAVE TIME
 
     const q = "INSERT INTO account(`email`) VALUES (?)"
     const q1 = "INSERT IGNORE INTO company(`name`) VALUES (?)"
