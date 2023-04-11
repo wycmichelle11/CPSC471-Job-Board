@@ -8,12 +8,20 @@ export const getPosts = (req, res) => {
         return res.status(200).json(data);
     });
 };
-export const getPost = (req, res) => {
+/*export const getPost = (req, res) => {
     const q =
     "SELECT `email`, `first_name`, `last_name`, `other_contact_info`, `about`, `affiliated_company` FROM users u JOIN job_posting p ON u.account_id = p.job_id WHERE p.job_id = ? "
     db.query(q, [req.params.jobid], (err, data) => {
         if (err) return res.status(500).json(err);
 
+        return res.status(200).json(data[0]);
+    });
+};*/
+export const getPost = (req, res) => {
+    const jobId = req.params.jobid;
+    const q = "SELECT * FROM  job_posting p WHERE p.job_id = ? ";
+    db.query(q, [jobId], (err,data) => {
+        if(err) return res.status(500).send(err);
         return res.status(200).json(data[0]);
     });
 };
@@ -91,7 +99,7 @@ export const updatePost = (req, res) => {
         if (err) return res.status(403).json("Token is not valid");
     })
 
-    const jobId = req.params.jobid;
+    const jobId = req.params.job_id;
     const q = "UPDATE job_postings SET `title`=?, `location`=?, `flag`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ? AND account_id = ?";
 
     const values = [
@@ -105,7 +113,7 @@ export const updatePost = (req, res) => {
 
     ];
 
-    db.query(q, [...values,jobId, userInfo.account_id], (err, data)=> {
+    db.query(q, [values,jobId, userInfo.account_id], (err, data)=> {
         if (err) return res.status(500).json(err);
         return res.json("Post has been updated");
     })

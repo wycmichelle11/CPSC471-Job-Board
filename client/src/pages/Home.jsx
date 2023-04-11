@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {AuthContext} from "../context/authContext.js";
 
@@ -52,8 +52,8 @@ const Home = () => {
                 <h2>{post.title}</h2>
                 {currentUser.account_id === post.account_id && (
                   <div className="resume-edit">
-                    <button>Edit</button>
-                    <button onClick={handleDelete(post.job_id)}>Delete</button>
+                    <Link to={`/home/editpost/${post.job_id}`} className="button-link">Edit</Link>
+                    <button onClick={handleDelete(post.job_id)} >Delete</button>
                   </div>
                 ) }
                 <p>Posting#: {post.job_id}</p>

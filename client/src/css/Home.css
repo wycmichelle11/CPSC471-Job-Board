@@ -41,6 +41,38 @@
     color: teal;
 }
 
+.button-link {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: teal;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.button-link:hover {
+    background-color: #0069d9;
+}
+
+.test {
+    display: inline;
+    padding: 0.5rem 1rem;
+    background-color: teal;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.test:hover {
+    background-color: #0069d9;
+}
+
 .h1 {
     font-size: 48px;
     font-weight: bold;
