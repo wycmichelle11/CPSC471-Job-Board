@@ -21,6 +21,17 @@ const Home = () => {
     fetchData();
   }, [myPosts]);
 
+  const [err, setError] = useState(null);
+
+  const handleApply = (jobid) => async () => {
+    try {
+      await axios.post(`/appliedto/${jobid}`);
+      navigate("/home/appliedto");
+    } catch (err) {
+      setError(err.response.data);
+      console.log(err.response.data);
+    }
+  }
 
   const handleDelete = (jobid) => async () => {
     try {
@@ -30,8 +41,6 @@ const Home = () => {
       console.log(err);
     }
   }
-
-
 
   return (
     <div className="home">
@@ -55,7 +64,7 @@ const Home = () => {
                 <p>Disclaimer: {post.disclaimer}</p>
                 <p>Compensation: {post.compensation}</p>
                 {currentUser.account_id !== post.account_id && (
-                  <div className="home-apply">
+                  <div onClick={handleApply(post.job_id)} className="home-apply">
                     <button>Apply</button>
                   </div>
                 ) }
