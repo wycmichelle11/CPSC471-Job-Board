@@ -71,6 +71,9 @@ const MyAccount = () => {
             <div className="home-postings">
                 {postings.map((post) => (
                     <div className="home-post" key={post.job_id}>
+                        {currentUser.account_id === post.account_id && (<div className="title">
+                            <h1>My Postings</h1>
+                        </div>)}
                         {currentUser.account_id === post.account_id && (<div className="home-content">
                             <h1>{post.title}</h1>
                                 <div className="home-edit">
