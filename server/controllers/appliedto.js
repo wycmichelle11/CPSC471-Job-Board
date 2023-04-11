@@ -23,8 +23,8 @@ export const getAppliedTo = (req, res) => {
     jwt.verify(token, "jwtkey", (err, userInfo) => {
        if (err) return res.status(403).json("Token is not valid");
     
-        const q = "SELECT * FROM job_posting p JOIN applied_to a ON p.job_id = a.job_post_id WHERE a.job_seeker_email = ?";
-        db.query(q, [userInfo.email], (err,data) => {
+        const q = "SELECT * FROM job_posting p JOIN applied_to a ON p.job_id = a.job_post_id WHERE a.job_seeker_email = (SELECT email FROM users WHERE account_id = ? )";
+        db.query(q, [userInfo.account_id], (err,data) => {
             if(err) return res.status(500).send(err);
             return res.status(200).json(data);
         });
