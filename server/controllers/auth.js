@@ -23,7 +23,6 @@ db.query (q,[req.body.email], (err, data) => {
     ]
     db.query(q, [req.body.email], (err, data) => {
         if (err) return res.json(err);
-        db.query(q1, [req.body.affiliated_company], (err,data) => {
             if (err) return res.json(err);
             db.query(q2, [values], (err, data) => {
                 if (err) return res.json(err);
@@ -32,8 +31,7 @@ db.query (q,[req.body.email], (err, data) => {
                     return res.status(200).json("User has been created!!!!");
                 })
             })
-        })
-        
+        if(req.body.affiliated_company != null){db.query(q1, [req.body.affiliated_company], (err,data) => {if (err) return res.json(err); })}
         
     })
     
