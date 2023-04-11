@@ -24,12 +24,13 @@ export const addPost = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+        const q = "INSERT INTO job_posting(`title`, `verification`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
         const q2 = "INSERT INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))" 
 
         const values = [
             req.body.title,
+            req.body.verification,
             req.body.location,
             req.body.flag,
             req.body.qualification,
@@ -37,7 +38,8 @@ export const addPost = (req, res) => {
             req.body.disclaimer,
             req.body.compensation,
             req.body.application_deadline,
-            userInfo.account_id
+            userInfo.account_id,
+            
 
         ];
 
