@@ -45,12 +45,15 @@ const EditPost = () => {
 
     const handleEdit = (jobid) => async (e) => {
         e.preventDefault();
-        try {
-            await axios.put(`/posts/${jobid}`, writeInputs);
-            navigate("/home/");
-
-        } catch (err) {
-            console.log(err.response.data);
+        if (Object.values(writeInputs).every(val => typeof val !== 'string' || val.trim() !== "" )) {
+            try {
+                await axios.put(`/posts/${jobid}`, writeInputs);
+                navigate("/home/");
+            } catch (err) {
+                setError("Server returned an error. Ensure all fields contain valid data.");
+            }
+        } else {
+            setError("One or more fields contains invalid data.");
         }
     }
 
@@ -58,6 +61,7 @@ const EditPost = () => {
         <div className="write">
             <div className="write-content">
                 <h1>Edit Posting</h1>
+                {err && <p style={{ color: "red" }}>{err}</p>}
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleEdit}>
                         <input defaultValue={writeInputs.title} placeholder="Job Title" name="title" onChange={handleChange}></input>

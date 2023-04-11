@@ -32,7 +32,7 @@ const WritePost = () => {
             await axios.post("/posts/", writeInputs);
             navigate("/home");
         } catch(err) {
-            setError(err.response.data);
+            setError("Server returned an error. Ensure all fields contain valid data.");
             console.error(err.response.data);
         }
     }
@@ -40,6 +40,7 @@ const WritePost = () => {
         <div className="write">
             <div className="write-content">
                 <h1>Add New Posting</h1>
+                {err && <p style={{ color: "red" }}>{err}</p>}
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
                         <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>

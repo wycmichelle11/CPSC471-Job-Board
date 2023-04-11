@@ -45,6 +45,10 @@ const MyAccount = () => {
         }
     }
 
+    const handleEdit = (jobid) => async () => {
+        navigate('/home/editpost', {state:{ jobid: jobid }});
+    }
+
     const addResume = async (e) => {
         e.preventDefault();
         try {
@@ -92,7 +96,7 @@ const MyAccount = () => {
                         {currentUser.account_id === post.account_id && (<div className="home-content">
                             <h1>{post.title}</h1>
                                 <div className="home-edit">
-                                    <button>Edit</button>
+                                    <button onClick={handleEdit(post.job_id)}>Edit</button>
                                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                                 </div>
                                 
