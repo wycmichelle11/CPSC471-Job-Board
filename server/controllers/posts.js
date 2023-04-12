@@ -76,7 +76,6 @@ export const deletePost = (req, res) => {
         const q = "DELETE FROM job_posting WHERE `job_id` = ? AND `account_id` = ?";
         const q1 = "DELETE FROM job WHERE `job_id` = ?"
         const q2 = "DELETE FROM available_jobs WHERE `available_job` = ?"
-        console.log(userInfo.account_id);
         db.query(q2, [jobId], (err,data)=>{
             if(err) return res.status(403).json("You can delete only your post!1");
             db.query(q1, [jobId], (err, data) => {
