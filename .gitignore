@@ -15,4 +15,3 @@ server/node_modules/crypto/README.md
 server/controllers/auth.js
 client/package.json
 client/package-lock.json
->>>>>>> Stashed changes
