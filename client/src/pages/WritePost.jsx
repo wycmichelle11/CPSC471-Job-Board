@@ -32,6 +32,7 @@ const WritePost = () => {
             navigate("/home");
         } catch(err) {
             setError("Server returned an error. Ensure all fields contain valid data.");
+            if(err.response.data = 1) setError("You must be verified to create a job posting. Visit your account page to request verification.");
             console.error(err.response.data);
         }
     }

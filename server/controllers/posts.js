@@ -42,7 +42,7 @@ export const addPost = (req, res) => {
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
         console.log(userInfo);
-        if(userInfo.verification !== 1) return res.status(403).json("User is not verified!");
+        if(userInfo.verification !== 1) return res.status(403).json(1);
         const q = "INSERT INTO job_posting(`title`, `location`, `description`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`, `company`) VALUES (?)";
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
         const q2 = "INSERT IGNORE INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))"
