@@ -9,8 +9,11 @@ const MyAccount = () => {
     const navigate = useNavigate();
     const [resumes, setResumes] = useState([]);
     const [postings, setPostings] = useState([]);
+    const [flags, setFlags] = useState([]);
     const myResumes = useLocation().search;
     const myPosts = useLocation().search;
+    const myFlags = useLocation().search;
+
     useEffect(()=> {
         const fetchDataResume = async () => {
         try{
@@ -34,6 +37,18 @@ const MyAccount = () => {
         };
         fetchData();
       }, [myPosts]);
+
+    useEffect(()=> {
+        const fetchFlags = async () => {
+            try{
+                const res = await axios.get(`/appliedto/flag`);
+                setFlags(res.data);
+            }catch (err) {
+                console.log(err);
+            }
+        };
+        fetchFlags();
+    }, [myFlags]);
     
 
     const handleDelete = (jobid) => async () => {
@@ -67,7 +82,25 @@ const MyAccount = () => {
         }
     }
 
+    const handleApply = (jobid) => async () => {
+        try {
+            await axios.post(`/appliedto/${jobid}`);
+            navigate("/home/appliedto");
+        } catch (err) {
+            setError(err.response.data);
+            console.log(err.response.data);
+        }
+    }
 
+    const handleUnflag = (jobid) => async () => {
+        try {
+            await axios.delete(`/appliedto/flag/${jobid}`);
+            const removed = flags.filter((flag)=> flag.job_id !== jobid);
+            setFlags(removed);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return(
         <div className="myaccount-container">
@@ -103,7 +136,7 @@ const MyAccount = () => {
                     </div>
                 ))}
             </div>}
-
+            {(currentUser && currentUser.affiliated_company) &&
             <div className="acc-postings">
                 <div className="title"> <h1>My Postings</h1> </div>
                 {postings.map((post) => (
@@ -126,7 +159,32 @@ const MyAccount = () => {
                         </div>)}
                     </div>
                 ))}
-            </div>
+            </div>}
+
+            {(currentUser && !currentUser.affiliated_company) &&
+                <div className="acc-postings">
+                    <div className="title"> <h1>Flagged Postings</h1> </div>
+                    {flags.map((post) => (
+                        <div className="acc-post" key={post.job_id}>
+                            {currentUser.account_id === post.account_id && (<div className="home-content">
+                                <h1>{post.title}</h1>
+                                <div className="home-edit">
+                                    <button onClick={handleApply(post.job_id)}>Apply</button>
+                                    <button onClick={handleUnflag(post.job_id)}>Unflag</button>
+                                </div>
+                                <p>Posting#: {post.job_id}</p>
+                                <p>Poster: {post.account_id}</p>
+                                <p>Location: {post.location}</p>
+                                <p>Description: {post.description}</p>
+                                <p>Qualifications: {post.qualification}</p>
+                                <p>Application Link: {post.link}</p>
+                                <p>Disclaimer: {post.disclaimer}</p>
+                                <p>Compensation: {post.compensation}</p>
+
+                            </div>)}
+                        </div>
+                    ))}
+                </div>}
 
         </div>
 

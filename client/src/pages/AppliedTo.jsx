@@ -11,7 +11,7 @@ const AppliedTo = () => {
     useEffect(()=> {
         const fetchData = async () => {
           try{
-            const res = await axios.get(`/appliedto`);
+            const res = await axios.get(`/appliedto/`);
             setApplied(res.data);
           }catch (err) {
             console.log(err);
@@ -26,10 +26,10 @@ const AppliedTo = () => {
             <div className="title">
                 <h1>Applied Jobs</h1>
             </div>
-            <div className="display-application">
+            <div className="acc-postings">
                 {applied.map((job) => (
-                    <div className="applied-post" key={job.job_id}>
-                        <div className="applied-content">
+                    <div className="acc-post" key={job.job_id}>
+                        <div className="home-content">
                             <h2>{job.title}</h2>
                             <p>Posting#: {job.job_id}</p>
                             <p>Poster: {job.account_id}</p>

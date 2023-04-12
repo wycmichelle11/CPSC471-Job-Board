@@ -6,9 +6,11 @@ import {AuthContext} from "../context/authContext.js";
 const Home = () => {
   const [postings, setPostings] = useState([]);
   const [viewPosting, setViewPosting] = useState({});
+  const [flags, setFlags] = useState([]);
   const {currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
   const myPosts = useLocation().search;
+  const myFlags = useLocation().search;
   useEffect(()=> {
     const fetchData = async () => {
       try{
@@ -20,6 +22,18 @@ const Home = () => {
     };
     fetchData();
   }, [myPosts]);
+
+  useEffect(()=> {
+    const fetchFlags = async () => {
+      try{
+        const res = await axios.get(`/appliedto/flag`);
+        setFlags(res.data);
+      }catch (err) {
+        console.log(err);
+      }
+    };
+    fetchFlags();
+  }, [myFlags]);
 
   const [err, setError] = useState(null);
 
@@ -50,6 +64,25 @@ const Home = () => {
     setViewPosting(post);
   }
 
+  const handleFlag = (jobid) => async () => {
+    try {
+      await axios.post(`/appliedto/flag/${jobid}`);
+      setFlags([...flags, {job_id:jobid}]);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleUnflag = (jobid) => async () => {
+    try {
+      await axios.delete(`/appliedto/flag/${jobid}`);
+      const removed = flags.filter((flag)=> flag.job_id !== jobid);
+      setFlags(removed);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
       <div className="home">
         <div className="stack">
@@ -73,6 +106,10 @@ const Home = () => {
                       <div className="home-apply">
                         <button onClick={() => handleView(post)}>View</button>
                         <button onClick={handleApply(post.job_id)}> Apply</button>
+                        {!flags.some((flag) => flag.job_id === post.job_id) && (
+                        <button onClick={handleFlag(post.job_id)}> Flag</button>)}
+                        {flags.some((flag) => flag.job_id === post.job_id) && (
+                            <button onClick={handleUnflag(post.job_id)}> Unflag</button>)}
                       </div>
                   )}
                 </div>
@@ -95,6 +132,10 @@ const Home = () => {
                 {currentUser && !currentUser.affiliated_company && (
                     <div className="home-apply">
                       <button onClick={handleApply(viewPosting.job_id)}>Apply</button>
+                      {!flags.some((flag) => flag.job_id === viewPosting.job_id) && (
+                          <button onClick={handleFlag(viewPosting.job_id)}> Flag</button>)}
+                      {flags.some((flag) => flag.job_id === viewPosting.job_id) && (
+                          <button onClick={handleUnflag(viewPosting.job_id)}> Unflag</button>)}
                     </div>
                 )}
             <p>{viewPosting.location}</p>
