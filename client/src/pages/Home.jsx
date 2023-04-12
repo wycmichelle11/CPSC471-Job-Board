@@ -5,10 +5,8 @@ import {AuthContext} from "../context/authContext.js";
 
 const Home = () => {
   const [postings, setPostings] = useState([]);
-  
   const {currentUser} = useContext(AuthContext);
   const navigate = useNavigate();
-  //const history = useHistory();
   const myPosts = useLocation().search;
   useEffect(()=> {
     const fetchData = async () => {

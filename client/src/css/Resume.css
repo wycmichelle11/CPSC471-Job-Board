@@ -1,12 +1,12 @@
 .resume-edit button{
   width: max-content;
-    padding: 5px 10px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid teal;
-    color: teal;
+  padding: 5px 10px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+  border: 1px solid teal;
+  color: teal;
 }
 
 .resume-edit Link {

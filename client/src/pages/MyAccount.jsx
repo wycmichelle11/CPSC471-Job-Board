@@ -49,6 +49,10 @@ const MyAccount = () => {
         navigate('/home/editpost', {state:{ jobid: jobid }});
     }
 
+    const handleIDK = async () => {
+        console.log(currentUser);
+    }
+
     const addResume = async (e) => {
         e.preventDefault();
         try {
@@ -62,14 +66,22 @@ const MyAccount = () => {
 
     return(
         <div className="myaccount-container">
-            {(currentUser && !currentUser.affiliated_company) && <div className="addResume">
+            <div className="addResume">
                 <div className="resume-edit">
-                    {/* <Link to="/home/resume">Add/Update Resume</Link> */}
-                    <button onClick={addResume}>Add Resume</button>
-                    <button>Update Resume</button>
-                    <button>Delete Resume</button>
+                    {currentUser && currentUser.verified===1 && (
+                        <>
+                            <button onClick={handleIDK}>Verify Account</button>
+                        </>
+                    )}
+                    {currentUser && !currentUser.affiliated_company && (
+                        <>
+                            <button onClick={addResume}>Add Resume</button>
+                            <button>Update Resume</button>
+                            <button>Delete Resume</button>
+                        </>
+                    )}
                 </div>
-            </div>}
+            </div>
             {(currentUser && !currentUser.affiliated_company) && <div className="display-resume">
                 {resumes.map((post) => (
                     <div className="resume-post" key={post.job_seeker_email}>
