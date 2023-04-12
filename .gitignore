@@ -9,3 +9,4 @@ client/package.json
 .idea/CPSC471-Job-Board.iml
 client/package-lock.json
 client/package.json
+server/node_modules/crypto/package.json
