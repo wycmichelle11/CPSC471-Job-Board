@@ -49,8 +49,13 @@ const MyAccount = () => {
         navigate('/home/editpost', {state:{ jobid: jobid }});
     }
 
-    const handleIDK = async () => {
-        console.log(currentUser);
+    const handleVerify = async () => {
+        try {
+            console.log(currentUser);
+            await axios.post(`/auth/verify/${currentUser.email}`);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const addResume = async (e) => {
@@ -68,9 +73,9 @@ const MyAccount = () => {
         <div className="myaccount-container">
             <div className="addResume">
                 <div className="resume-edit">
-                    {currentUser && currentUser.verified===1 && (
+                    {currentUser && currentUser.verified===0 && (
                         <>
-                            <button onClick={handleIDK}>Verify Account</button>
+                            <button onClick={handleVerify}>Verify Account</button>
                         </>
                     )}
                     {currentUser && !currentUser.affiliated_company && (

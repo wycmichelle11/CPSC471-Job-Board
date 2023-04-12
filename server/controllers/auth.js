@@ -1,6 +1,7 @@
 import { db } from "../db.js"
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+
 const salt = "Umju9wE7LQeYLIyZpFzQuZBI00IgmLXH";
 export const register = (req, res)=> {
 //check existing user
@@ -68,3 +69,12 @@ export const logout = (req, res)=> {
         secure: true
     }).status(200).json("User has been logged out.")
 };
+
+export const verify = (req, res) => {
+    const email = req.params.account;
+    const q = "UPDATE IGNORE `jobboard`.`users` SET `verified` = '1' WHERE `email` = ?"
+    db.query(q,email, (err, data) => {
+        if (err) return res.json(err);
+        return res.status(200).json("User has been verified.");
+    })
+}
