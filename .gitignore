@@ -9,4 +9,10 @@ client/package.json
 .idea/CPSC471-Job-Board.iml
 client/package-lock.json
 client/package.json
+server/controllers/auth.js
 server/node_modules/crypto/package.json
+server/node_modules/crypto/README.md
+server/controllers/auth.js
+client/package.json
+client/package-lock.json
+>>>>>>> Stashed changes
