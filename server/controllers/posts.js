@@ -32,14 +32,14 @@ export const addPost = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const q = "INSERT INTO job_posting(`title`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+        const q = "INSERT INTO job_posting(`title`, `location`, `description`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
         const q2 = "INSERT INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))" 
 
         const values = [
             req.body.title,
             req.body.location,
-            req.body.flag,
+            req.body.description,
             req.body.qualification,
             req.body.link,
             req.body.disclaimer,
@@ -100,12 +100,12 @@ export const updatePost = (req, res) => {
     })
 
     const jobId = req.params.jobid;
-    const q = "UPDATE job_posting SET `title`=?, `location`=?, `flag`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ?";
+    const q = "UPDATE job_posting SET `title`=?, `location`=?, `description`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ?";
 
     const values = [
         req.body.title,
         req.body.location,
-        req.body.flag,
+        req.body.description,
         req.body.qualification,
         req.body.link,
         req.body.disclaimer,

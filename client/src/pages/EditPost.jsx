@@ -14,7 +14,7 @@ const EditPost = () => {
         company_name: null,
         title: null,
         location: null,
-        flag: null,
+        description: null,
         qualification: null,
         link: null,
         disclaimer: null,
@@ -65,7 +65,7 @@ const EditPost = () => {
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleEdit}>
                         <input defaultValue={writeInputs.title} placeholder="Job Title" name="title" onChange={handleChange}></input>
-                        <textarea type="text" placeholder="Description"></textarea>
+                        <textarea defaultValue={writeInputs.description} type="text" placeholder="Description" name="description" onChange={handleChange}></textarea>
                         <input defaultValue={writeInputs.location} placeholder="Location" name="location" onChange={handleChange}></input>
                         <textarea defaultValue={writeInputs.qualification} placeholder="Qualifications" name="qualification" onChange={handleChange}></textarea>
                         <input defaultValue={writeInputs.link} placeholder="Link to apply" name="link" onChange={handleChange}></input>

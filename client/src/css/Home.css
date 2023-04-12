@@ -1,44 +1,79 @@
 .home {
-   
+    height: 72vh;
+    display: flex;
+}
+
+.stack{
+    flex: 1;
 }
 .home-postings {
-    margin-top: 50px;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 50px;
-    align-items: center;
+    overflow: auto;
+    /*overflow-y: scroll; /* Add a vertical scrollbar */
+    height: 72vh; /* Set a fixed height */
+    padding-right: 20px; /* Add some space between the two columns */
 }
+
+.home-post {
+    margin-bottom: 20px; /* Add some spacing between posts */
+    border-radius: 10px; /* Make the post container rounded */
+    background-color: white; /* Set the background color of the post container */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Add a box-shadow effect */
+}
+
+.acc-postings {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.acc-post {
+    margin-bottom: 20px; /* Add some spacing between posts */
+    border-radius: 10px; /* Make the post container rounded */
+    background-color: white; /* Set the background color of the post container */
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); /* Add a box-shadow effect */
+    position: relative;
+    left: 25%;
+    width: 50%;
+}
+
+
 .home-content {
-    flex: 3;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid teal;
-    padding-left: 20vh;
-    padding-right: 20vh;
-    background-color: white;
-    align-items: center;
-}
-.home-edit button {
-    width: max-content;
-    padding: 5px 10px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid teal;
-    color: teal;
+    padding: 20px; /* Add some padding to the content area */
 }
 
 .home-apply button {
-    width: max-content;
-    padding: 5px 10px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    background-color: white;
-    border: 1px solid teal;
-    color: teal;
+    background-color: teal; /* Set the button color to teal */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the button border */
+    border-radius: 10px; /* Make the button rounded */
+    padding: 10px 20px; /* Add some padding to the button */
+    cursor: pointer; /* Add a pointer cursor to the button */
+    margin-right: 20px;
+}
+
+.home-apply button:hover {
+    background-color: #006d6d; /* Darken the button color on hover */
+}
+
+.home-edit button {
+    background-color: teal; /* Set the button color to teal */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the button border */
+    border-radius: 10px; /* Make the button rounded */
+    padding: 10px 20px; /* Add some padding to the button */
+    margin-right: 20px;
+    cursor: pointer; /* Add a pointer cursor to the button */
+}
+
+.home-edit button:hover {
+    background-color: #006d6d; /* Darken the button color on hover */
+}
+
+.job-posting-header {
+    margin-left: 15px;
+    z-index: 1; /* Set the z-index to bring it in front of the postings */
 }
 
 .button-link {
@@ -76,8 +111,48 @@
 .h1 {
     font-size: 48px;
     font-weight: bold;
-    color: teal
+    color: black;
 }
+
 .p {
     color: teal;
+}
+
+.view-posting {
+    flex: 1;
+    padding: 20px;
+    overflow: auto;
+    height: 78vh;
+    background-color: white;
+}
+
+.view-posting h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+}
+.view-posting h2 {
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 10px;
+}
+
+.view-posting p {
+    color: black;
+    margin-bottom: 20px;
+}
+
+.view-posting button {
+    background-color: teal; /* Set the button color to teal */
+    color: white; /* Set the text color to white */
+    border: none; /* Remove the button border */
+    border-radius: 10px; /* Make the button rounded */
+    padding: 10px 20px; /* Add some padding to the button */
+    cursor: pointer; /* Add a pointer cursor to the button */
+}
+
+.view-posting button:hover {
+    background-color: #006d6d; /* Darken the button color on hover */
 }

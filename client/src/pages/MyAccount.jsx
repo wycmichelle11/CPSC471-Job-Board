@@ -104,23 +104,20 @@ const MyAccount = () => {
                 ))}
             </div>}
 
-            <div className="home-postings">
+            <div className="acc-postings">
+                <div className="title"> <h1>My Postings</h1> </div>
                 {postings.map((post) => (
-                    <div className="home-post" key={post.job_id}>
-                        {currentUser.account_id === post.account_id && (<div className="title">
-                            <h1>My Postings</h1>
-                        </div>)}
+                    <div className="acc-post" key={post.job_id}>
                         {currentUser.account_id === post.account_id && (<div className="home-content">
                             <h1>{post.title}</h1>
                                 <div className="home-edit">
                                     <button onClick={handleEdit(post.job_id)}>Edit</button>
                                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                                 </div>
-                                
                                 <p>Posting#: {post.job_id}</p>
                                 <p>Poster: {post.account_id}</p>
                                 <p>Location: {post.location}</p>
-                                <p>Flag: {post.flag}</p>
+                                <p>Description: {post.description}</p>
                                 <p>Qualifications: {post.qualification}</p>
                                 <p>Application Link: {post.link}</p>
                                 <p>Disclaimer: {post.disclaimer}</p>
