@@ -5,7 +5,6 @@ import axios from "axios"
 const WritePost = () => {
 
     const [writeInputs, writeSetInputs] = useState({
-        company_name: null, 
         title: null,
         location: null,
         description: null,
@@ -43,7 +42,6 @@ const WritePost = () => {
                 {err && <p style={{ color: "red" }}>{err}</p>}
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
-                        <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
                         <textarea type="text" placeholder="Description" name="description" onChange={handleChange}></textarea>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>

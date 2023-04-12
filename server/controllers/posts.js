@@ -17,6 +17,15 @@ export const getPosts = (req, res) => {
         return res.status(200).json(data[0]);
     });
 };*/
+export const getMyPosts = (req, res) => {
+    const acc = req.params.account;
+    const q = "SELECT * FROM  job_posting p WHERE p.account_id = ? ";
+    db.query(q, [acc], (err,data) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).json(data);
+    });
+};
+
 export const getPost = (req, res) => {
     const jobId = req.params.jobid;
     const q = "SELECT * FROM  job_posting p WHERE p.job_id = ? ";
@@ -32,9 +41,11 @@ export const addPost = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const q = "INSERT INTO job_posting(`title`, `location`, `description`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";
+        console.log(userInfo);
+        if(userInfo.verification !== 1) return res.status(403).json("User is not verified!");
+        const q = "INSERT INTO job_posting(`title`, `location`, `description`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`, `company`) VALUES (?)";
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
-        const q2 = "INSERT INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))" 
+        const q2 = "INSERT IGNORE INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))"
 
         const values = [
             req.body.title,
@@ -45,13 +56,12 @@ export const addPost = (req, res) => {
             req.body.disclaimer,
             req.body.compensation,
             req.body.application_deadline,
-            userInfo.account_id
-
+            userInfo.account_id,
+            userInfo.company
         ];
-
         db.query(q, [values], (err, data)=> {
             if (err) return res.status(500).json(err);
-            db.query(q1, [req.body.company_name], (err, data)=> {
+            db.query(q1, [userInfo.company], (err, data)=> {
                 if (err) return res.status(500).json(err);
                 db.query(q2, [userInfo.account_id], (err, data) => {
                     if (err) return res.status(500).json(err);

@@ -7,9 +7,9 @@ export const getResume = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
        if (err) return res.status(403).json("Token is not valid");
-        const q = "SELECT * FROM resume r JOIN account a ON r.job_seeker_email = a.email WHERE a.account_id = ?";
+        const q = "SELECT * FROM resume r JOIN users u ON r.job_seeker_email = u.email WHERE u.account_id = ?";
         db.query(q, [userInfo.account_id], (err,data) => {
-            if(err) return res.status(500).send(err);
+            if(err)return res.status(500).send(err);
             return res.status(200).json(data);
         });
     })

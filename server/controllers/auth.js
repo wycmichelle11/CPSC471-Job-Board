@@ -10,10 +10,8 @@ db.query (q,[req.body.email], (err, data) => {
     if (err) return res.json(err);
     if(data.length) return res.status(409).json("This email is already registered! Please login or enter a new email!");
 
-    const q = "INSERT INTO account(`email`) VALUES (?)"
     const q1 = "INSERT IGNORE INTO company(`name`) VALUES (?)"
     const q2 = "INSERT INTO users(`email`, `password`, `first_name`, `last_name`, `affiliated_company`) VALUES (?)"
-    const q3 = "UPDATE users, account SET users.account_id = account.account_id WHERE users.email = account.email"
     const salted = req.body.password + salt;
     const hashed = crypto.createHash('sha256').update(salted).digest('hex');
     const values = [
@@ -23,20 +21,17 @@ db.query (q,[req.body.email], (err, data) => {
         req.body.last_name,
         req.body.affiliated_company
     ]
-    db.query(q, [req.body.email], (err, data) => {
+    db.query(q1, [req.affiliated_company], (err, data) => {
         if (err) return res.json(err);
             if (err) return res.json(err);
             db.query(q2, [values], (err, data) => {
                 if (err) return res.json(err);
-                db.query(q3, (err, data) => {
-                    if (err) return res.json(err);
                     return res.status(200).json("User has been created!!!!");
-                })
             })
         if(req.body.affiliated_company != null){db.query(q1, [req.body.affiliated_company], (err,data) => {if (err) return res.json(err); })}
-        
+
     })
-    
+
 
     }); 
 };
@@ -53,7 +48,7 @@ db.query (q,[req.body.email], (err, data) => {
     if (data[0].password != hashed) return(res.status(400).json("Incorrect username or password"));
 
 
-    const token = jwt.sign({account_id:data[0].account_id}, "jwtkey") //check id
+    const token = jwt.sign({account_id:data[0].account_id, verification:data[0].verified, company:data[0].affiliated_company}, "jwtkey") //check id
     const {password, ...other} = data[0];
     res.cookie("access_token", token, {
         httpOnly: true
@@ -74,6 +69,13 @@ export const verify = (req, res) => {
     const q = "UPDATE IGNORE `jobboard`.`users` SET `verified` = '1' WHERE `email` = ?"
     db.query(q,email, (err, data) => {
         if (err) return res.json(err);
+        const token = req.cookies.access_token;
+        const decoded = jwt.decode(token);
+        decoded.verification = 1;
+        const newToken = jwt.sign(decoded, "jwtkey")
+        res.cookie("access_token", newToken, {
+            httpOnly: true
+        }).status(200)
         return res.status(200).json("User has been verified.");
     })
 }

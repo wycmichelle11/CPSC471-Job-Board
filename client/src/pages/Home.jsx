@@ -92,16 +92,20 @@ const Home = () => {
               <div className="home-post" key={post.job_id}>
                 <div className="home-content">
                   <h2>{post.title}</h2>
-                  {currentUser.account_id === post.account_id && (
-                      <div className="home-edit">
-                        <button onClick={() => handleView(post)}>View</button>
-                        <button onClick={handleEdit(post.job_id)}>Edit</button>
-                        <button onClick={handleDelete(post.job_id)}>Delete</button>
-                      </div>
-                  )}
                   <p>Posting #{post.job_id}</p>
-                  <p>Location: {post.location}</p>
-                  <p>Company Name</p>
+                  <p>{post.location}</p>
+                  <p>{post.company}</p>
+                  {currentUser.affiliated_company && (
+                  <div className="home-edit">
+                    <button onClick={() => handleView(post)}>View</button>
+                    {currentUser.account_id === post.account_id && (
+                        <>
+                          <button onClick={handleEdit(post.job_id)}>Edit</button>
+                          <button onClick={handleDelete(post.job_id)}>Delete</button>
+                        </>
+                    )}
+                  </div>
+                  )}
                   {currentUser && !currentUser.affiliated_company && (
                       <div className="home-apply">
                         <button onClick={() => handleView(post)}>View</button>
@@ -121,11 +125,11 @@ const Home = () => {
           {viewPosting.job_id && (
               <>
             <h1>{viewPosting.title} #{viewPosting.job_id} </h1>
-            <h2> Company Name</h2>
+            <h2> {viewPosting.company}</h2>
                 {currentUser.account_id === viewPosting.account_id && (
                     <div className="home-edit">
-                      <button onClick={() => handleEdit(viewPosting.job_id)}>Edit</button>
-                      <button onClick={() => handleDelete(viewPosting.job_id)}>Delete</button>
+                      <button onClick={handleEdit(viewPosting.job_id)}>Edit</button>
+                      <button onClick={handleDelete(viewPosting.job_id)}>Delete</button>
                     </div>
                 )}
 

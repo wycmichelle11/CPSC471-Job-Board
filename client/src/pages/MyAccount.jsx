@@ -10,10 +10,10 @@ const MyAccount = () => {
     const [resumes, setResumes] = useState([]);
     const [postings, setPostings] = useState([]);
     const [flags, setFlags] = useState([]);
+    const [buttonVisible, setButtonVisible] = useState(true);
     const myResumes = useLocation().search;
     const myPosts = useLocation().search;
     const myFlags = useLocation().search;
-
     useEffect(()=> {
         const fetchDataResume = async () => {
         try{
@@ -29,7 +29,7 @@ const MyAccount = () => {
     useEffect(()=> {
         const fetchData = async () => {
           try{
-            const res = await axios.get(`/posts`);
+            const res = await axios.get(`/posts/target/${currentUser.account_id}`);
             setPostings(res.data);
           }catch (err) {
             console.log(err);
@@ -66,8 +66,8 @@ const MyAccount = () => {
 
     const handleVerify = async () => {
         try {
-            console.log(currentUser);
             await axios.post(`/auth/verify/${currentUser.email}`);
+            setButtonVisible(false);
         } catch (err) {
             console.log(err);
         }
@@ -106,7 +106,7 @@ const MyAccount = () => {
         <div className="myaccount-container">
             <div className="addResume">
                 <div className="resume-edit">
-                    {currentUser && currentUser.verified===0 && (
+                    {buttonVisible && currentUser && currentUser.verified===0 && (
                         <>
                             <button onClick={handleVerify}>Verify Account</button>
                         </>
