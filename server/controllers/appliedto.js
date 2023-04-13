@@ -8,7 +8,7 @@ export const addAppliedTo = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
        if (err) return res.status(403).json("Token is not valid");
-       if(userInfo.verified !== 1) return res.status(403).json(1);
+       if(userInfo.verification !== 1) return res.status(403).json(1);
          const q = "INSERT INTO applied_to(`company_name`, `job_seeker_email`, `job_post_id`) VALUES ((SELECT company_name FROM job WHERE job_id = ?),(SELECT email FROM users WHERE account_id = ? ) , ?)";  
             db.query(q, [req.params.jobid, userInfo.account_id, req.params.jobid], (err, data)=> {
                 if (err) return res.status(500).json(err);

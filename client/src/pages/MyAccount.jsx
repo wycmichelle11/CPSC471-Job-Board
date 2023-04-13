@@ -67,6 +67,7 @@ const MyAccount = () => {
     const handleVerify = async () => {
         try {
             await axios.post(`/auth/verify/${currentUser.email}`);
+            currentUser.verified = true;
             setButtonVisible(false);
         } catch (err) {
             console.log(err);
@@ -79,6 +80,15 @@ const MyAccount = () => {
             navigate("/home/resume");
         } catch(err) {
             setError(err.response.data);
+        }
+    }
+
+    const deleteResume = async (e) => {
+        try {
+            await axios.delete(`/resumes`);
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -113,9 +123,8 @@ const MyAccount = () => {
                     )}
                     {currentUser && !currentUser.affiliated_company && (
                         <>
-                            <button onClick={addResume}>Add Resume</button>
-                            <button>Update Resume</button>
-                            <button>Delete Resume</button>
+                            <button onClick={addResume}>Add/Update Resume</button>
+                            <button onClick={deleteResume}>Delete Resume</button>
                         </>
                     )}
                 </div>
