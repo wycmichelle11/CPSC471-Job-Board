@@ -47,8 +47,7 @@ const Register = () => {
                 <span>Only enter Company name if you are a job poster</span>
                 <button type="submit" onClick={handleSubmit}>Register</button>
                 <span>
-                {err && <p>{err}</p>}
-                    Already have an account? 
+                    Already have an account?
                     <Link to="/login"> Login here</Link>
                 </span>
             </form>
