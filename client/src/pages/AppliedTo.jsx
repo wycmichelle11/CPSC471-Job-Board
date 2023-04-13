@@ -34,6 +34,7 @@ const AppliedTo = () => {
                             <p>Posting #{job.job_id}</p>
                             <p>Company: {job.company}</p>
                             <p>Location: {job.location}</p>
+                            <p>Description: {job.description}</p>
                             <p>Qualifications: {job.qualification}</p>
                             <p>Application Link: {job.link}</p>
                             <p>Disclaimer: {job.disclaimer}</p>
