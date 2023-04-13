@@ -5,17 +5,15 @@ import axios from "axios"
 const WritePost = () => {
 
     const [writeInputs, writeSetInputs] = useState({
-        company_name: null, 
         title: null,
         location: null,
-        flag: null,
+        description: null,
         qualification: null,
         link: null,
         disclaimer: null,
         compensation: null,
         application_deadline: null,
         account_id: null,
-        verification: "verified"
     })
 
     const [err, setError] = useState(null);
@@ -33,7 +31,8 @@ const WritePost = () => {
             await axios.post("/posts/", writeInputs);
             navigate("/home");
         } catch(err) {
-            setError(err.response.data);
+            setError("Server returned an error. Ensure all fields contain valid data.");
+            if(err.response.data = 1) setError("You must be verified to create a job posting. Visit your account page to request verification.");
             console.error(err.response.data);
         }
     }
@@ -41,11 +40,11 @@ const WritePost = () => {
         <div className="write">
             <div className="write-content">
                 <h1>Add New Posting</h1>
+                {err && <p style={{ color: "red" }}>{err}</p>}
                 <div className="new-posting-container">
                     <form className="new-posting-form" onSubmit={handleSubmit}>
-                        <input placeholder="Company Name" name="company_name" onChange={handleChange}></input>
                         <input placeholder="Job Title" name="title" onChange={handleChange}></input>
-                        <textarea type="text" placeholder="Description"></textarea>
+                        <textarea type="text" placeholder="Description" name="description" onChange={handleChange}></textarea>
                         <input placeholder="Location" name="location" onChange={handleChange}></input>
                         <textarea placeholder="Qualifications" name="qualification" onChange={handleChange}></textarea>
                         <input placeholder="Link to apply" name="link" onChange={handleChange}></input>

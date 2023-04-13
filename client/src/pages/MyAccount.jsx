@@ -6,11 +6,15 @@ import {AuthContext} from "../context/authContext.js"
 const MyAccount = () => {
     const {currentUser} = useContext(AuthContext);
     const [err, setError] = useState(null);
+    const [verifail, setVerifail] = useState(false);
     const navigate = useNavigate();
     const [resumes, setResumes] = useState([]);
     const [postings, setPostings] = useState([]);
+    const [flags, setFlags] = useState([]);
+    const [buttonVisible, setButtonVisible] = useState(true);
     const myResumes = useLocation().search;
     const myPosts = useLocation().search;
+    const myFlags = useLocation().search;
     useEffect(()=> {
         const fetchDataResume = async () => {
         try{
@@ -26,7 +30,7 @@ const MyAccount = () => {
     useEffect(()=> {
         const fetchData = async () => {
           try{
-            const res = await axios.get(`/posts`);
+            const res = await axios.get(`/posts/target/${currentUser.account_id}`);
             setPostings(res.data);
           }catch (err) {
             console.log(err);
@@ -34,6 +38,18 @@ const MyAccount = () => {
         };
         fetchData();
       }, [myPosts]);
+
+    useEffect(()=> {
+        const fetchFlags = async () => {
+            try{
+                const res = await axios.get(`/appliedto/flag`);
+                setFlags(res.data);
+            }catch (err) {
+                console.log(err);
+            }
+        };
+        fetchFlags();
+    }, [myFlags]);
     
 
     const handleDelete = (jobid) => async () => {
@@ -42,6 +58,21 @@ const MyAccount = () => {
           setPostings(postings.filter((post) => post.job_id !== jobid));
         } catch (err) {
           console.log(err);
+        }
+    }
+
+    const handleEdit = (jobid) => async () => {
+        navigate('/home/editpost', {state:{ jobid: jobid }});
+    }
+
+    const handleVerify = async () => {
+        try {
+            await axios.post(`/auth/verify/${currentUser.email}`);
+            currentUser.verified = true;
+            setButtonVisible(false);
+            setVerifail(false);
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -54,18 +85,57 @@ const MyAccount = () => {
         }
     }
 
+    const deleteResume = async (e) => {
+        try {
+            await axios.delete(`/resumes`);
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
+    const handleApply = (jobid) => async () => {
+        try {
+            await axios.post(`/appliedto/${jobid}`);
+            navigate("/home/appliedto");
+        } catch (err) {
+            setError(err.response.data);
+            if(err.response.data) setVerifail(true);
+        }
+    }
+
+    const handleUnflag = (jobid) => async () => {
+        try {
+            await axios.delete(`/appliedto/flag/${jobid}`);
+            const removed = flags.filter((flag)=> flag.job_id !== jobid);
+            setFlags(removed);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     return(
         <div className="myaccount-container">
-            {(currentUser && !currentUser.affiliated_company) && <div className="addResume">
+            <div className="addResume">
                 <div className="resume-edit">
-                    {/* <Link to="/home/resume">Add/Update Resume</Link> */}
-                    <button onClick={addResume}>Add Resume</button>
-                    <button>Update Resume</button>
-                    <button>Delete Resume</button>
+                    {buttonVisible && currentUser && currentUser.verified===0 && (
+                        <>
+                            <button onClick={handleVerify}>Verify Account</button>
+                        </>
+                    )}
+                    {!buttonVisible && currentUser  && (
+                        <>
+                            <button >Verification Sent!</button>
+                        </>
+                    )}
+                    {currentUser && !currentUser.affiliated_company && (
+                        <>
+                            <button onClick={addResume}>Add/Update Resume</button>
+                            <button onClick={deleteResume}>Delete Resume</button>
+                        </>
+                    )}
                 </div>
-            </div>}
+            </div>
             {(currentUser && !currentUser.affiliated_company) && <div className="display-resume">
                 {resumes.map((post) => (
                     <div className="resume-post" key={post.job_seeker_email}>
@@ -82,24 +152,21 @@ const MyAccount = () => {
                     </div>
                 ))}
             </div>}
-
-            <div className="home-postings">
+            {(currentUser && currentUser.affiliated_company) &&
+            <div className="acc-postings">
+                <div className="title"> <h1>My Postings</h1> </div>
                 {postings.map((post) => (
-                    <div className="home-post" key={post.job_id}>
-                        {currentUser.account_id === post.account_id && (<div className="title">
-                            <h1>My Postings</h1>
-                        </div>)}
+                    <div className="acc-post" key={post.job_id}>
                         {currentUser.account_id === post.account_id && (<div className="home-content">
                             <h1>{post.title}</h1>
                                 <div className="home-edit">
-                                    <button>Edit</button>
+                                    <button onClick={handleEdit(post.job_id)}>Edit</button>
                                     <button onClick={handleDelete(post.job_id)}>Delete</button>
                                 </div>
-                                
                                 <p>Posting#: {post.job_id}</p>
                                 <p>Poster: {post.account_id}</p>
                                 <p>Location: {post.location}</p>
-                                <p>Flag: {post.flag}</p>
+                                <p>Description: {post.description}</p>
                                 <p>Qualifications: {post.qualification}</p>
                                 <p>Application Link: {post.link}</p>
                                 <p>Disclaimer: {post.disclaimer}</p>
@@ -108,7 +175,33 @@ const MyAccount = () => {
                         </div>)}
                     </div>
                 ))}
-            </div>
+            </div>}
+
+            {(currentUser && !currentUser.affiliated_company) &&
+                <div className="acc-postings">
+                    <div className="title"> <h1>Flagged Postings</h1> </div>
+                    {verifail && <p style={{ color: "red" }}>YOU MUST VERIFY YOUR ACCOUNT BEFORE APPLYING</p>}
+                    {flags.map((post) => (
+                        <div className="acc-post" key={post.job_id}>
+                            {currentUser.account_id === post.account_id && (<div className="home-content">
+                                <h1>{post.title}</h1>
+                                <div className="home-edit">
+                                    <button onClick={handleApply(post.job_id)}>Apply</button>
+                                    <button onClick={handleUnflag(post.job_id)}>Unflag</button>
+                                </div>
+                                <p>Posting#: {post.job_id}</p>
+                                <p>Poster: {post.account_id}</p>
+                                <p>Location: {post.location}</p>
+                                <p>Description: {post.description}</p>
+                                <p>Qualifications: {post.qualification}</p>
+                                <p>Application Link: {post.link}</p>
+                                <p>Disclaimer: {post.disclaimer}</p>
+                                <p>Compensation: {post.compensation}</p>
+
+                            </div>)}
+                        </div>
+                    ))}
+                </div>}
 
         </div>
 

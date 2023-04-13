@@ -15,6 +15,7 @@ import {
 import Register from "./pages/Register"
 import Login from "./pages/Login"
 import WritePost from "./pages/WritePost"
+import EditPost from "./pages/EditPost"
 import AddResume from "./pages/AddResume"
 import Home from "./pages/Home"
 import Footer from "./components/Footer"
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path:"/home/writepost", //id of post
         element: <WritePost />
+      },
+      {
+        path:"/home/editpost/" , //id of post
+        element: <EditPost />
       },
       {
         path:"/home/myaccount", //id of post

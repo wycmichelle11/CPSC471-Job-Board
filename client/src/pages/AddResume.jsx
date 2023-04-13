@@ -46,7 +46,7 @@ const AddResume = () => {
                     <textarea placeholder="Work Experience" name="work_experience" onChange={handleChange}/>
                     <textarea placeholder="Interests" name="interests" onChange={handleChange}/>
                     <textarea placeholder="Additional Information" name="additional_information" onChange={handleChange}/>
-                    <button type="submit" onClick={handleSubmit}>Submit</button>
+                    <button type="submit" onClick={handleSubmit} style={{backgroundColor: 'teal', color: 'white', border: 'none', borderRadius: '10px', padding: '10px 20px', marginRight: '20px'}}>Submit</button>
                 </form>
             </div>
         </div>

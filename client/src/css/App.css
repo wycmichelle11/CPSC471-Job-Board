@@ -9,7 +9,7 @@
   justify-content: right;
   background-color: rgb(154, 235, 255);
   padding: 2%;
-
+  z-index: 1;
 }
 .navbar-link {
   text-decoration: none;
@@ -63,4 +63,5 @@ footer{
   margin-top: 100px;
   padding: 20px;
   background-color: rgb(154, 235, 255);
+  z-index: 1;
 }

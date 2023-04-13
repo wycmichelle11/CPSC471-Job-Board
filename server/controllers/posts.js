@@ -8,12 +8,29 @@ export const getPosts = (req, res) => {
         return res.status(200).json(data);
     });
 };
-export const getPost = (req, res) => {
+/*export const getPost = (req, res) => {
     const q =
     "SELECT `email`, `first_name`, `last_name`, `other_contact_info`, `about`, `affiliated_company` FROM users u JOIN job_posting p ON u.account_id = p.job_id WHERE p.job_id = ? "
     db.query(q, [req.params.jobid], (err, data) => {
         if (err) return res.status(500).json(err);
 
+        return res.status(200).json(data[0]);
+    });
+};*/
+export const getMyPosts = (req, res) => {
+    const acc = req.params.account;
+    const q = "SELECT * FROM  job_posting p WHERE p.account_id = ? ";
+    db.query(q, [acc], (err,data) => {
+        if(err) return res.status(500).send(err);
+        return res.status(200).json(data);
+    });
+};
+
+export const getPost = (req, res) => {
+    const jobId = req.params.jobid;
+    const q = "SELECT * FROM  job_posting p WHERE p.job_id = ? ";
+    db.query(q, [jobId], (err,data) => {
+        if(err) return res.status(500).send(err);
         return res.status(200).json(data[0]);
     });
 };
@@ -24,28 +41,27 @@ export const addPost = (req, res) => {
 
     jwt.verify(token, "jwtkey", (err, userInfo) => {
         if (err) return res.status(403).json("Token is not valid");
-        const q = "INSERT INTO job_posting(`title`, `verification`, `location`, `flag`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`) VALUES (?)";  
+        console.log(userInfo);
+        if(userInfo.verification !== 1) return res.status(403).json(1);
+        const q = "INSERT INTO job_posting(`title`, `location`, `description`, `qualification`, `link`, `disclaimer`, `compensation`, `application_deadline`, `account_id`, `company`) VALUES (?)";
         const q1 = "INSERT INTO job VALUES ((SELECT MAX(`job_id`) FROM job_posting), ?)"
-        const q2 = "INSERT INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))" 
+        const q2 = "INSERT IGNORE INTO available_jobs VALUES ((SELECT MAX(`job_id`) FROM job_posting), (SELECT u.email FROM users u JOIN job_posting p ON u.account_id = p.account_id WHERE p.job_id = (SELECT MAX(`job_id`) FROM job_posting)))"
 
         const values = [
             req.body.title,
-            req.body.verification,
             req.body.location,
-            req.body.flag,
+            req.body.description,
             req.body.qualification,
             req.body.link,
             req.body.disclaimer,
             req.body.compensation,
             req.body.application_deadline,
             userInfo.account_id,
-            
-
+            userInfo.company
         ];
-
         db.query(q, [values], (err, data)=> {
             if (err) return res.status(500).json(err);
-            db.query(q1, [req.body.company_name], (err, data)=> {
+            db.query(q1, [userInfo.company], (err, data)=> {
                 if (err) return res.status(500).json(err);
                 db.query(q2, [userInfo.account_id], (err, data) => {
                     if (err) return res.status(500).json(err);
@@ -70,13 +86,12 @@ export const deletePost = (req, res) => {
         const q = "DELETE FROM job_posting WHERE `job_id` = ? AND `account_id` = ?";
         const q1 = "DELETE FROM job WHERE `job_id` = ?"
         const q2 = "DELETE FROM available_jobs WHERE `available_job` = ?"
-        console.log(userInfo.account_id);
         db.query(q2, [jobId], (err,data)=>{
-            if(err) return res.status(403).json("You can delete only your post!");
+            if(err) return res.status(403).json("You can delete only your post!1");
             db.query(q1, [jobId], (err, data) => {
-                if(err) return res.status(403).json("You can delete only your post!");
+                if(err) return res.status(403).json("You can delete only your post!2");
                 db.query(q, [jobId,userInfo.account_id], (err,data)=>{
-                    if(err) return res.status(403).json("You can delete only your post!");
+                    if(err) return res.status(403).json("You can delete only your post!3");
                     return res.json("Post has been deleted!");
                 })
             })
@@ -94,20 +109,20 @@ export const updatePost = (req, res) => {
     })
 
     const jobId = req.params.jobid;
-    const q = "UPDATE job_postings SET `title`=?, `location`=?, `flag`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ? AND account_id = ?";
+    const q = "UPDATE job_posting SET `title`=?, `location`=?, `description`=?, `qualification`=?, `link`=?, `disclaimer`=?, `compensation`=?, `application_deadline`=? WHERE `job_id` = ?";
 
     const values = [
         req.body.title,
         req.body.location,
-        req.body.flag,
+        req.body.description,
         req.body.qualification,
         req.body.link,
         req.body.disclaimer,
         req.body.compensation,
-
+        req.body.application_deadline
     ];
 
-    db.query(q, [...values,jobId, userInfo.account_id], (err, data)=> {
+    db.query(q, [...values,jobId], (err, data)=> {
         if (err) return res.status(500).json(err);
         return res.json("Post has been updated");
     })

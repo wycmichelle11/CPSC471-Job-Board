@@ -1,0 +1,53 @@
+.edit{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+  }
+  .edit-content {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .edit-posting-container form {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    gap: 10px;
+    align-items: center;
+    min-width: 100vh;
+    
+  }
+  .edit-posting-container input {
+    width: 100%;
+    padding: 10px;
+  }
+  .edit-posting-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: sans-serif;
+  }
+
+  
+  .edit-posting-container button {
+    width: max-content;
+    padding: 5px 10px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid teal;
+    color: teal;
+  } 
+  .h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: teal
+}
+.p {
+    color: teal;
+}

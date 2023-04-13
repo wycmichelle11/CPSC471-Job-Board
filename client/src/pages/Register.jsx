@@ -8,7 +8,7 @@ const Register = () => {
         password: null,
         first_name: null,
         last_name: null,
-        affiliated_company: null,
+        affiliated_company: null
     })
 
     const [err, setError] = useState(null);
@@ -22,17 +22,22 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await axios.post("/auth/register", inputs);
-            navigate("/login");
-        } catch(err) {
-            setError(err.response.data);
+        if (Object.entries(inputs).every(([key, value]) => key === 'affiliated_company' || (typeof value === 'string' && value.trim() !== ''))){
+            try {
+                await axios.post("/auth/register", inputs);
+                navigate("/login");
+            } catch (err) {
+                setError(err.response.data);
+            }
+        }else{
+            setError("One or more fields is empty.");
         }
     }
 
     return (
         <div className="auth-form-container">
             <h1>Create New Account</h1>
+            {err && <p style={{ color: "red" }}>{err}</p>}
             <form className="register-form" onSubmit={handleSubmit}>
                 <input required placeholder="First Name" name="first_name" onChange={handleChange} />
                 <input required placeholder="Last Name" name="last_name" onChange={handleChange} />
