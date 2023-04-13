@@ -6,6 +6,7 @@ import {AuthContext} from "../context/authContext.js"
 const MyAccount = () => {
     const {currentUser} = useContext(AuthContext);
     const [err, setError] = useState(null);
+    const [verifail, setVerifail] = useState(false);
     const navigate = useNavigate();
     const [resumes, setResumes] = useState([]);
     const [postings, setPostings] = useState([]);
@@ -69,6 +70,7 @@ const MyAccount = () => {
             await axios.post(`/auth/verify/${currentUser.email}`);
             currentUser.verified = true;
             setButtonVisible(false);
+            setVerifail(false);
         } catch (err) {
             console.log(err);
         }
@@ -98,7 +100,7 @@ const MyAccount = () => {
             navigate("/home/appliedto");
         } catch (err) {
             setError(err.response.data);
-            console.log(err.response.data);
+            if(err.response.data) setVerifail(true);
         }
     }
 
@@ -119,6 +121,11 @@ const MyAccount = () => {
                     {buttonVisible && currentUser && currentUser.verified===0 && (
                         <>
                             <button onClick={handleVerify}>Verify Account</button>
+                        </>
+                    )}
+                    {!buttonVisible && currentUser  && (
+                        <>
+                            <button >Verification Sent!</button>
                         </>
                     )}
                     {currentUser && !currentUser.affiliated_company && (
@@ -173,6 +180,7 @@ const MyAccount = () => {
             {(currentUser && !currentUser.affiliated_company) &&
                 <div className="acc-postings">
                     <div className="title"> <h1>Flagged Postings</h1> </div>
+                    {verifail && <p style={{ color: "red" }}>YOU MUST VERIFY YOUR ACCOUNT BEFORE APPLYING</p>}
                     {flags.map((post) => (
                         <div className="acc-post" key={post.job_id}>
                             {currentUser.account_id === post.account_id && (<div className="home-content">

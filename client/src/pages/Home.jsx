@@ -5,6 +5,7 @@ import {AuthContext} from "../context/authContext.js";
 
 const Home = () => {
   const [postings, setPostings] = useState([]);
+  const [verifail, setVerifail] = useState(false);
   const [viewPosting, setViewPosting] = useState({});
   const [flags, setFlags] = useState([]);
   const {currentUser} = useContext(AuthContext);
@@ -43,6 +44,7 @@ const Home = () => {
       navigate("/home/appliedto");
     } catch (err) {
       setError(err.response.data);
+      if(err.response.data) setVerifail(true);
       console.log(err.response.data);
     }
   }
@@ -87,6 +89,7 @@ const Home = () => {
       <div className="home">
         <div className="stack">
         <div className="job-posting-header"><h1>Job Postings</h1></div>
+         {verifail && <p style={{ color: "red" }}>YOU MUST VERIFY YOUR ACCOUNT BEFORE APPLYING</p>}
         <div className="home-postings">
           {postings.map((post) => (
               <div className="home-post" key={post.job_id}>

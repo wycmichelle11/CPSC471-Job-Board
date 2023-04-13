@@ -31,8 +31,8 @@ const AppliedTo = () => {
                     <div className="acc-post" key={job.job_id}>
                         <div className="home-content">
                             <h2>{job.title}</h2>
-                            <p>Posting#: {job.job_id}</p>
-                            <p>Poster: {job.account_id}</p>
+                            <p>Posting #{job.job_id}</p>
+                            <p>Company: {job.company}</p>
                             <p>Location: {job.location}</p>
                             <p>Qualifications: {job.qualification}</p>
                             <p>Application Link: {job.link}</p>

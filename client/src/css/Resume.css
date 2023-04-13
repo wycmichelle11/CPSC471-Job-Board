@@ -20,6 +20,15 @@
   margin-top: 10px;
 }
 
+.write-content button {
+  background-color: teal;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin-right: 20px;
+  cursor: pointer;
+}
 
 .resume-edit button:hover {
   background-color: #006d6d;

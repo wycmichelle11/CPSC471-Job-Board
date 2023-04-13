@@ -74,8 +74,7 @@ export const verify = (req, res) => {
         decoded.verification = 1;
         const newToken = jwt.sign(decoded, "jwtkey")
         res.cookie("access_token", newToken, {
-            httpOnly: true
-        }).status(200)
-        return res.status(200).json("User has been verified.");
+            httpOnly: true,
+        }).status(200).json("User has been verified.")
     })
 }
